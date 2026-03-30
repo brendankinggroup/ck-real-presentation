@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Coxen & King → REAL · Agent Presentation</title>
+<style>
+:root{
+  /* ── PALETTE: navy · aqua · coral · white ── */
+  --navy:#1b365d;
+  --navy-l:#2e4a72;          /* lighter navy for hover/secondary */
+  --aqua:#0099aa;            /* Real accent — replaces all gold/amber */
+  --aqua-l:#00b5c8;          /* lighter aqua for hover */
+  --aqua-bg:rgba(0,153,170,.07);
+  --coral:#e8185a;
+  --coral2:#c4104b;
+  --coral-bg:rgba(232,24,90,.06);
+  --ink:#1b365d;
+  --ink2:#2e4a72;
+  --muted:#6b7f99;
+  --muted2:#9aabbd;
+  --bg:#f8f8f7;
+  --white:#ffffff;
+  --s1:#f1f1ef;
+  --s2:#e9e9e7;
+  --border:#dddcd9;
+  --border2:#c8c6c2;
+  --green:#1a6e3e;
+  --green-bg:rgba(26,110,62,.07);
+  --red:#c0392b;
+
+  /* ── LEGACY ALIASES (keep old JS-generated HTML working) ── */
+  --mg:#e8185a;--mg2:#c4104b;--mg-bg:rgba(232,24,90,.06);
+  --tl:#0099aa;--tl2:#007a8a;--tl-bg:rgba(0,153,170,.07);
+  --gold:#0099aa;--gold-bg:rgba(0,153,170,.07);
+  --gn:#1a6e3e;--gn-bg:rgba(26,110,62,.07);
+  --rd:#c0392b;
+  --pu:#1b365d;--pu-bg:rgba(27,54,93,.07);
+  --sage:#1a6e3e;--sage2:#145530;--sage-bg:rgba(26,110,62,.07);
+  --amber:#0099aa;--amber-bg:rgba(0,153,170,.07);
+  --violet:#1b365d;--violet-bg:rgba(27,54,93,.07);
+
+  /* ── FONTS ── */
+  --font-d:'Avenir Next','Avenir',system-ui,sans-serif;
+  --font-b:'Avenir Next','Avenir',system-ui,sans-serif;
+  --font-m:'Avenir Next','Avenir',system-ui,monospace;
+
+  /* ── RADII ── */
+  --r:8px;--rl:14px;--rx:20px;--pill:100px;
+
+  /* ── SHADOWS ── */
+  --sh-sm:0 1px 4px rgba(27,54,93,.08),0 1px 2px rgba(27,54,93,.04);
+  --sh:0 4px 16px rgba(27,54,93,.1),0 2px 4px rgba(27,54,93,.05);
+  --sh-lg:0 12px 36px rgba(27,54,93,.13),0 4px 8px rgba(27,54,93,.06);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-b);font-size:14px;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
+
+/* ─── SHELL ─── */
+.shell{display:flex;height:100vh;overflow:hidden}
+
+/* ─── SIDEBAR ─── */
+.sidebar{width:272px;background:var(--navy);flex-shrink:0;display:flex;flex-direction:column;overflow:hidden}
+.sb-top{padding:22px 18px 16px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0}
+.sb-logo-row{display:flex;align-items:center;gap:10px;margin-bottom:2px}
+.sb-logo{width:32px;height:32px;border-radius:8px;background:var(--coral);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.sb-title{font-size:13px;font-weight:700;color:#fff;font-family:var(--font-d);line-height:1.2}
+.sb-sub{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px}
+.sb-scroll{flex:1;overflow-y:auto;padding-bottom:20px}
+.sb-scroll::-webkit-scrollbar{width:3px}
+.sb-scroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+.sb-slbl{padding:16px 18px 7px;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3);font-family:var(--font-d)}
+
+/* Plan pills */
+.sb-plans{padding:0 10px 12px;display:flex;flex-direction:column;gap:4px;border-bottom:1px solid rgba(255,255,255,.06)}
+.sb-plan{padding:9px 11px;border-radius:8px;cursor:pointer;transition:all .15s;border:1px solid transparent}
+.sb-plan:hover{background:rgba(255,255,255,.06)}
+.sb-plan-name{font-size:12px;font-weight:700;color:rgba(255,255,255,.45);font-family:var(--font-d);transition:color .15s}
+.sb-plan-desc{font-size:9.5px;color:rgba(255,255,255,.22);font-family:var(--font-m);margin-top:2px;line-height:1.4}
+.sb-plan.pa-ind{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.2)}
+.sb-plan.pa-ind .sb-plan-name{color:#fff}
+.sb-plan.pa-hyb{background:rgba(0,153,170,.2);border-color:rgba(0,153,170,.45)}
+.sb-plan.pa-hyb .sb-plan-name{color:#7ee8f4}
+.sb-plan.pa-team{background:rgba(232,24,90,.2);border-color:rgba(232,24,90,.45)}
+.sb-plan.pa-team .sb-plan-name{color:#ffb3c6}
+
+/* Agent list */
+.sb-agents{padding:0 10px;display:flex;flex-direction:column;gap:2px}
+.sb-agent{padding:8px 10px;border-radius:6px;cursor:pointer;transition:all .12s;border:1px solid transparent}
+.sb-agent:hover{background:rgba(255,255,255,.06)}
+.sb-agent.active{background:rgba(232,24,90,.18);border-color:rgba(232,24,90,.45)}
+.sb-agent-name{font-size:11.5px;font-weight:600;color:rgba(255,255,255,.45);line-height:1.2;transition:color .12s}
+.sb-agent:hover .sb-agent-name,.sb-agent.active .sb-agent-name{color:#fff}
+.sb-agent-meta{font-size:9px;color:rgba(255,255,255,.2);font-family:var(--font-m);margin-top:1px}
+.sb-agent.active .sb-agent-meta{color:rgba(255,255,255,.4)}
+.sb-custom-btn{margin:10px 10px 0;padding:10px 12px;border-radius:8px;border:1.5px dashed rgba(255,255,255,.2);cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .15s}
+.sb-custom-btn:hover,.sb-custom-btn.active{border-color:var(--coral);background:rgba(232,24,90,.1)}
+.sb-custom-btn span{font-size:12px;font-weight:600;color:rgba(255,255,255,.35);transition:color .15s}
+.sb-custom-btn:hover span,.sb-custom-btn.active span{color:var(--coral)}
+.sb-custom-icon{width:22px;height:22px;border-radius:5px;background:rgba(232,24,90,.2);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--coral);flex-shrink:0}
+
+/* ─── MAIN ─── */
+.main{flex:1;overflow-y:auto;overflow-x:hidden;background:var(--bg)}
+.main::-webkit-scrollbar{width:5px}
+.main::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* ─── CUSTOM EDITOR ─── */
+.ced{background:var(--white);border-bottom:2px solid var(--border)}
+.ced-head{background:var(--navy);padding:20px 32px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.ced-head-left h2{font-size:18px;font-weight:700;color:#fff;font-family:var(--font-d);margin-bottom:2px}
+.ced-head-left h2 span{color:var(--coral)}
+.ced-head-left p{font-size:11px;color:rgba(255,255,255,.35);font-weight:300}
+.ced-apply{padding:10px 22px;background:var(--coral);color:#fff;border:none;border-radius:var(--r);font-family:var(--font-d);font-size:13px;font-weight:700;cursor:pointer;transition:background .15s;white-space:nowrap}
+.ced-apply:hover{background:var(--coral2)}
+.ced-grid{padding:22px 32px;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.ced-field{display:flex;flex-direction:column;gap:5px}
+.ced-lbl{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-family:var(--font-d)}
+.ced-lbl em{color:var(--coral);font-style:normal}
+.ced-iw{display:flex;align-items:stretch;border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--s1);transition:border-color .15s}
+.ced-iw:focus-within{border-color:var(--coral)}
+.ced-pre,.ced-suf{padding:9px 10px;font-size:12px;color:var(--muted2);background:var(--s2);font-family:var(--font-m);flex-shrink:0}
+.ced-pre{border-right:1px solid var(--border)}.ced-suf{border-left:1px solid var(--border)}
+.ced-in{background:transparent;border:none;outline:none;padding:9px 10px;font-size:13px;font-family:var(--font-m);color:var(--ink);width:100%;min-width:0}
+.ced-in::-webkit-inner-spin-button{-webkit-appearance:none}
+.ced-note{font-size:9.5px;color:var(--muted2);font-style:italic}
+.ced-footer{padding:0 32px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ced-reset{padding:8px 16px;background:transparent;color:var(--muted);border:1.5px solid var(--border);border-radius:var(--r);font-family:var(--font-b);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.ced-reset:hover{border-color:var(--border2);color:var(--ink)}
+.ced-live{font-size:11px;color:var(--muted);font-style:italic}
+
+/* ─── PDF BAR ─── */
+.pdf-bar{background:var(--navy);border-bottom:2px solid var(--coral);padding:11px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;flex-shrink:0;position:sticky;top:0;z-index:50}
+.pdf-bar-left{font-size:12px;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:10px}
+.pdf-bar-left strong{color:#fff;font-weight:700;font-size:13px;font-family:var(--font-d)}
+.pdf-export-btn{padding:8px 20px;background:var(--coral);color:#fff;border:none;border-radius:var(--r);font-family:var(--font-d);font-size:12px;font-weight:700;cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:7px;white-space:nowrap}
+.pdf-export-btn:hover{background:var(--coral2)}
+.pdf-export-btn svg{width:14px;height:14px;flex-shrink:0}
+
+/* ─── PRESENTATION ─── */
+.pres{max-width:900px;margin:0 auto;padding:36px 36px 100px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.pres>*{animation:fadeUp .38s ease both}
+.pres>*:nth-child(1){animation-delay:.04s}.pres>*:nth-child(2){animation-delay:.09s}
+.pres>*:nth-child(3){animation-delay:.14s}.pres>*:nth-child(4){animation-delay:.19s}
+.pres>*:nth-child(5){animation-delay:.24s}.pres>*:nth-child(6){animation-delay:.29s}
+.pres>*:nth-child(7){animation-delay:.34s}.pres>*:nth-child(8){animation-delay:.39s}
+.pres>*:nth-child(9){animation-delay:.44s}
+
+/* Section label */
+.slbl{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;font-family:var(--font-d);display:flex;align-items:center;gap:10px}
+.slbl::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ─── BANNER ─── */
+.banner{background:var(--navy);border-radius:var(--rx);padding:28px 32px;margin-bottom:28px;position:relative;overflow:hidden;box-shadow:var(--sh-lg)}
+.b-glow{position:absolute;inset:0;background:radial-gradient(ellipse 55% 70% at 90% -10%,rgba(232,24,90,.22),transparent),radial-gradient(ellipse 35% 50% at -5% 85%,rgba(0,153,170,.12),transparent);pointer-events:none}
+.b-glow2{display:none}
+.b-inner{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.b-left{display:flex;align-items:center;gap:16px}
+.b-avatar{width:52px;height:52px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;color:#fff;flex-shrink:0;font-family:var(--font-d);border:2px solid rgba(255,255,255,.15)}
+.b-name{font-size:26px;font-weight:700;color:#fff;font-family:var(--font-d);letter-spacing:-.02em;margin-bottom:3px;line-height:1.1}
+.b-meta{font-size:11px;color:rgba(255,255,255,.4);font-weight:300}
+.b-badge{padding:6px 16px;border-radius:var(--pill);font-size:10.5px;font-weight:700;letter-spacing:.04em;border:1px solid;white-space:nowrap;font-family:var(--font-d)}
+.b-ind{background:rgba(255,255,255,.1);color:rgba(255,255,255,.9);border-color:rgba(255,255,255,.25)}
+.b-hyb{background:rgba(0,153,170,.2);color:#7ee8f4;border-color:rgba(0,153,170,.5)}
+.b-team{background:rgba(232,24,90,.2);color:#ffb3c6;border-color:rgba(232,24,90,.5)}
+.b-custom{background:rgba(255,255,255,.1);color:rgba(255,255,255,.9);border-color:rgba(255,255,255,.25)}
+
+/* ─── BIG Q COMPARISON ─── */
+.big-q{display:grid;grid-template-columns:1fr 50px 1fr;gap:0;margin-bottom:18px;align-items:stretch}
+.bq{background:var(--white);border:1.5px solid var(--border);border-radius:var(--rx);padding:26px}
+.bq.going{border-color:var(--coral);background:linear-gradient(150deg,rgba(232,24,90,.04),var(--white))}
+.bq-lbl{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;font-family:var(--font-d)}
+.bq.now .bq-lbl{color:var(--muted)}.bq.going .bq-lbl{color:var(--coral)}
+.bq-broker{font-size:13px;font-weight:700;color:var(--ink);font-family:var(--font-d);margin-bottom:14px;padding-bottom:12px;border-bottom:1.5px solid var(--border)}
+.bq-net-lbl{font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:700;font-family:var(--font-d);margin-bottom:4px}
+.bq-net{font-family:var(--font-d);font-size:38px;font-weight:700;line-height:1;letter-spacing:-.02em}
+.bq.now .bq-net{color:var(--ink2)}.bq.going .bq-net{color:var(--coral)}
+.bq-pct{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.5}
+.bq-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.bq-arr{width:38px;height:38px;border-radius:50%;background:var(--coral);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px}
+.bq-ln{width:2px;height:28px;background:linear-gradient(to bottom,transparent,rgba(232,24,90,.25),transparent)}
+
+/* ─── DIFF ─── */
+.diff{border-radius:var(--rx);padding:22px 28px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;border:1.5px solid}
+.dif-p{background:rgba(27,94,62,.05);border-color:var(--green)}.dif-n{background:rgba(192,57,43,.05);border-color:var(--red)}.dif-z{background:var(--s1);border-color:var(--border2)}
+.diff-l h2{font-size:14px;font-weight:700;font-family:var(--font-d);margin-bottom:3px}
+.dif-p .diff-l h2{color:var(--green)}.dif-n .diff-l h2{color:var(--red)}.dif-z .diff-l h2{color:var(--muted)}
+.diff-l p{font-size:11px;color:var(--muted);font-weight:300}
+.diff-num{font-family:var(--font-d);font-size:40px;font-weight:700;line-height:1;letter-spacing:-.02em}
+.dif-p .diff-num{color:var(--green)}.dif-n .diff-num{color:var(--red)}.dif-z .diff-num{color:var(--muted)}
+.diff-sub{font-size:10px;color:var(--muted);margin-top:3px;font-family:var(--font-m)}
+
+/* ─── PLAN EXPLAINER ─── */
+.plan-explainer{border-radius:var(--rl);padding:22px 26px;margin-bottom:28px;border:1.5px solid}
+.pe-ind{background:rgba(27,54,93,.04);border-color:rgba(27,54,93,.18)}
+.pe-hyb{background:rgba(0,153,170,.04);border-color:rgba(0,153,170,.2)}
+.pe-team{background:rgba(232,24,90,.04);border-color:rgba(232,24,90,.18)}
+.pe-title{font-size:13px;font-weight:700;color:var(--navy);font-family:var(--font-d);margin-bottom:10px}
+.pe-ind .pe-title{color:var(--navy)}.pe-hyb .pe-title{color:var(--aqua)}.pe-team .pe-title{color:var(--coral2)}
+.pe-rows{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.pe-row{background:rgba(255,255,255,.7);border-radius:8px;padding:10px 14px;border:1px solid rgba(0,0,0,.06)}
+.pe-row-top{font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-family:var(--font-d);margin-bottom:3px}
+.pe-row-val{font-family:var(--font-m);font-size:14px;font-weight:700;color:var(--ink)}
+.pe-row-sub{font-size:10px;color:var(--muted2);margin-top:2px}
+
+/* ─── FEE CARDS ─── */
+.fee-wrap{margin-bottom:28px}
+.fee-cols{display:grid;gap:14px}
+.fee-cols-2{grid-template-columns:1fr 1fr}.fee-cols-3{grid-template-columns:1fr 1fr 1fr}
+.fc{background:var(--white);border:1.5px solid var(--border);border-radius:var(--rl);overflow:hidden}
+.fc.real{border-color:rgba(232,24,90,.3);background:linear-gradient(160deg,rgba(232,24,90,.04),var(--white))}
+.fc.ck{border-color:rgba(0,153,170,.3);background:linear-gradient(160deg,rgba(0,153,170,.05),var(--white))}
+.fc-head{padding:16px 20px 13px;border-bottom:1.5px solid var(--border)}
+.fc.real .fc-head{border-bottom-color:rgba(232,24,90,.12)}.fc.ck .fc-head{border-bottom-color:rgba(0,153,170,.15)}
+.fc-head-lbl{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:2px;font-family:var(--font-d)}
+.fc.now .fc-head-lbl{color:var(--muted)}.fc.real .fc-head-lbl{color:var(--coral)}.fc.ck .fc-head-lbl{color:var(--aqua)}
+.fc-head h3{font-size:13px;font-weight:700;color:var(--ink);font-family:var(--font-d)}
+.fc-body{padding:14px 20px}
+.fc-row{display:flex;justify-content:space-between;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--s1);gap:8px}
+.fc-row:last-child{border-bottom:none}
+.fc-row-lbl{font-size:12px;color:var(--muted);flex:1;line-height:1.4}
+.fc-row-val{font-family:var(--font-m);font-size:11.5px;font-weight:600;flex-shrink:0}
+.fc-row-val.neg{color:var(--coral)}.fc-row-val.gneg{color:var(--aqua)}.fc-row-val.pos{color:var(--green)}.fc-row-val.dim{color:var(--muted2)}
+.fc-foot{display:flex;justify-content:space-between;align-items:center;padding:13px 20px;background:var(--s1);border-top:2px solid var(--border)}
+.fc.real .fc-foot{background:rgba(232,24,90,.05);border-top-color:rgba(232,24,90,.12)}
+.fc.ck .fc-foot{background:rgba(0,153,170,.05);border-top-color:rgba(0,153,170,.12)}
+.fc-foot-lbl{font-size:12px;font-weight:700;color:var(--ink);font-family:var(--font-d)}
+.fc-foot-val{font-family:var(--font-d);font-size:15px;font-weight:700}
+.fc.now .fc-foot-val{color:var(--ink2)}.fc.real .fc-foot-val{color:var(--coral)}.fc.ck .fc-foot-val{color:var(--aqua)}
+
+/* CHIPS */
+.chip{display:inline-block;padding:2px 7px;border-radius:4px;font-size:9px;font-family:var(--font-m);margin-left:5px;vertical-align:middle;font-weight:600}
+.c-pre{background:rgba(0,153,170,.08);color:var(--aqua)}.c-post{background:rgba(26,110,62,.08);color:var(--green)}.c-always{background:var(--s2);color:var(--muted);border:1px solid var(--border)}
+.c-ck{background:rgba(0,153,170,.08);color:var(--aqua)}.c-inc{background:rgba(26,110,62,.08);color:var(--green)}
+
+/* COMBINED TOTAL */
+.combined-total{background:var(--navy);border-radius:var(--rl);padding:16px 22px;margin-top:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.ct-left{font-size:13px;color:rgba(255,255,255,.55)}.ct-left strong{color:#fff;font-weight:700}
+.ct-right{display:flex;gap:24px;flex-wrap:wrap}.ct-item{text-align:right}
+.ct-item-lbl{font-size:9px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;font-weight:700;font-family:var(--font-d);margin-bottom:2px}
+.ct-item-val{font-family:var(--font-d);font-size:17px;font-weight:700;color:#fff}
+.ct-item-val.mg{color:#ffb0c4}.ct-item-val.gold{color:#7ee8f4}.ct-item-val.tl{color:#7ee8f4}
+
+/* ─── CAP CARD ─── */
+.cap-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--rl);padding:28px;margin-bottom:28px}
+.cap-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.cap-top h3{font-size:14px;font-weight:700;color:var(--ink);font-family:var(--font-d)}
+.cs-tag{padding:5px 13px;border-radius:var(--pill);font-size:10px;font-weight:700;font-family:var(--font-m);letter-spacing:.06em;border:1.5px solid}
+.cs-cap{background:rgba(0,153,170,.08);color:var(--aqua);border-color:rgba(0,153,170,.35)}
+.cs-pre{background:rgba(0,153,170,.06);color:var(--aqua);border-color:rgba(0,153,170,.25)}
+.cap-track{background:var(--s2);border-radius:var(--pill);height:10px;overflow:hidden;border:1px solid var(--border)}
+.cap-fill{height:100%;border-radius:var(--pill);transition:width .6s cubic-bezier(.4,0,.2,1)}
+.cf-ind{background:linear-gradient(90deg,#1b365d,#2e4a72)}
+.cf-hyb{background:linear-gradient(90deg,var(--aqua),var(--aqua-l))}
+.cf-team{background:linear-gradient(90deg,var(--coral2),var(--coral))}
+.cap-marks{display:flex;justify-content:space-between;font-size:9.5px;color:var(--muted2);font-family:var(--font-m);margin-top:5px}
+.cap-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
+.cstat{background:var(--s1);border-radius:var(--r);padding:13px 15px;border:1px solid var(--border)}
+.cstat-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:700;font-family:var(--font-d);margin-bottom:3px}
+.cstat-val{font-family:var(--font-m);font-size:14px;font-weight:700;color:var(--ink)}
+.cstat-val.tl{color:var(--aqua)}.cstat-val.gold{color:var(--aqua)}
+
+/* ─── DEAL TABLE ─── */
+.tl-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--rl);padding:28px;margin-bottom:28px;overflow:hidden}
+.tl-card h3{font-size:14px;font-weight:700;color:var(--ink);font-family:var(--font-d);margin-bottom:3px}
+.tl-card .tl-sub{font-size:11px;color:var(--muted);font-weight:300;margin-bottom:18px;line-height:1.5}
+.tl-table{width:100%;border-collapse:collapse;font-size:11.5px}
+.tl-table th{padding:8px 10px;text-align:right;font-size:8.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;border-bottom:2px solid var(--border);background:var(--s1);white-space:nowrap;font-family:var(--font-d)}
+.tl-table th:first-child{text-align:left}
+.tl-table td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--s1);font-family:var(--font-m);font-size:11px}
+.tl-table td:first-child{text-align:left;font-family:var(--font-b);font-size:12px;font-weight:600}
+.tl-table tr:last-child td{border-bottom:none}
+.tl-table tr:hover:not(.tl-cap-row) td{background:var(--s1)}
+.tl-cap-row td{background:rgba(0,153,170,.06);color:var(--aqua)!important;font-weight:700!important;font-size:10.5px!important;border-left:3px solid var(--aqua);letter-spacing:.03em}
+
+/* ─── TOOLS ─── */
+.tools-card{background:var(--navy);border-radius:var(--rl);padding:28px 30px;margin-bottom:28px;position:relative;overflow:hidden}
+.tools-card::after{content:'';position:absolute;width:200px;height:200px;border-radius:50%;border:1px solid rgba(255,255,255,.04);top:-60px;right:-40px}
+.tc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;position:relative;z-index:1;flex-wrap:wrap;gap:8px}
+.tc-top h3{font-size:15px;font-weight:700;color:#fff;font-family:var(--font-d)}
+.tc-badge{background:rgba(0,153,170,.2);color:#7ee8f4;border:1px solid rgba(0,153,170,.4);padding:4px 12px;border-radius:var(--pill);font-size:10px;font-weight:700;font-family:var(--font-d)}
+.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;position:relative;z-index:1}
+.tool{background:rgba(255,255,255,.06);border-radius:8px;padding:13px 15px;border:1px solid rgba(255,255,255,.08)}
+.tool-name{font-size:12px;font-weight:700;color:#fff;font-family:var(--font-d);margin-bottom:3px}
+.tool-desc{font-size:10px;color:rgba(255,255,255,.38);line-height:1.5;font-weight:300}
+.tool-val{font-size:9.5px;color:rgba(0,181,200,.7);font-family:var(--font-m);margin-top:3px;font-weight:600}
+
+/* ─── STATEMENT / SUMMARY ─── */
+.stmt{background:var(--navy);border-radius:var(--rl);padding:32px;margin-bottom:28px;position:relative;overflow:hidden}
+.stmt::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 65% at 95% -5%,rgba(232,24,90,.2),transparent),radial-gradient(ellipse 35% 50% at 5% 105%,rgba(0,153,170,.12),transparent);pointer-events:none}
+.stmt-lbl{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);font-family:var(--font-d);margin-bottom:16px;position:relative;z-index:1}
+.stmt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;position:relative;z-index:1}
+.sg{background:rgba(255,255,255,.07);border-radius:var(--r);padding:14px 16px;border:1px solid rgba(255,255,255,.1)}
+.sg-lbl{font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;font-weight:700;font-family:var(--font-d);margin-bottom:5px}
+.sg-val{font-family:var(--font-d);font-size:20px;font-weight:700;color:#fff;line-height:1}
+.sg-val.tl{color:#7ee8f4}.sg-val.mg{color:#ffb0c4}.sg-val.gn{color:#7ee8f4}.sg-val.rd{color:#ff9a8a}.sg-val.gold{color:#7ee8f4}
+.stmt-text{background:rgba(255,255,255,.07);border-radius:var(--r);border:1px solid rgba(255,255,255,.1);padding:16px 18px;font-size:13px;color:rgba(255,255,255,.72);line-height:1.85;position:relative;z-index:1}
+.stmt-text strong{font-weight:700;color:#fff}.stmt-text em{color:var(--coral);font-style:normal;font-weight:700}
+
+/* ─── CTA ─── */
+.cta{background:var(--coral);border-radius:var(--rl);padding:26px 30px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.cta h3{font-size:17px;font-weight:700;color:#fff;font-family:var(--font-d);letter-spacing:-.01em;margin-bottom:2px}
+.cta p{font-size:12px;color:rgba(255,255,255,.65);font-weight:300}
+.cta-stats{display:flex;gap:22px;flex-wrap:wrap}
+.cta-s{text-align:right}
+.cta-s-val{font-family:var(--font-d);font-size:20px;font-weight:700;color:#fff}
+.cta-s-lbl{font-size:9px;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.08em;font-weight:700;font-family:var(--font-d);margin-top:2px}
+
+/* ─── WELCOME ─── */
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:48px;text-align:center}
+.welcome h2{font-size:28px;font-weight:700;color:var(--ink);font-family:var(--font-d);margin-bottom:12px;letter-spacing:-.02em}
+.welcome h2 span{color:var(--coral)}
+.welcome p{font-size:13px;color:var(--muted);max-width:360px;font-weight:300;line-height:1.75;margin-bottom:24px}
+.welcome-hint{font-size:11.5px;color:var(--muted2)}
+
+/* ─── PRINT ─── */
+#print-container{display:none;font-family:var(--font-b);font-size:13px;color:var(--ink);padding:10mm 12mm}
+#print-header{display:flex;align-items:center;justify-content:space-between;padding:0 0 10px;border-bottom:2px solid var(--coral);margin-bottom:16px}
+#print-header-logo{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.08em;font-family:var(--font-d)}
+#print-header-logo strong{color:var(--coral)}
+#print-header-date{font-size:10px;color:var(--muted2);font-family:var(--font-m)}
+@media print{
+  @page{margin:0;size:A4}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  html{height:auto!important;overflow:visible!important}
+  body{height:auto!important;overflow:visible!important;background:#fff!important}
+  .shell{display:none!important}
+  #print-container{display:block!important;padding:10mm 12mm}
+  #print-container .pres>*{page-break-inside:avoid;animation:none!important;opacity:1!important;transform:none!important}
+  #print-container .fee-cols-3{grid-template-columns:1fr 1fr 1fr!important}
+  #print-container .fee-cols-2{grid-template-columns:1fr 1fr!important}
+  #print-container .cap-stats{grid-template-columns:repeat(4,1fr)!important}
+  #print-container .tools-grid{grid-template-columns:repeat(3,1fr)!important}
+  #print-container .stmt-grid{grid-template-columns:repeat(3,1fr)!important}
+  #print-container .big-q{grid-template-columns:1fr 50px 1fr!important}
+  #print-container .bq-mid{display:flex!important}
+  #print-container .pres{padding:0;max-width:100%}
+  #print-container .tl-table{font-size:10px}
+}
+@media(max-width:900px){
+  .shell{flex-direction:column;height:auto;overflow:visible}
+  html,body{height:auto;overflow:visible}
+  .main{overflow:visible}
+  .big-q{grid-template-columns:1fr}.bq-mid{display:none}
+  .fee-cols-2,.fee-cols-3{grid-template-columns:1fr}
+  .cap-stats{grid-template-columns:1fr 1fr}
+  .tools-grid{grid-template-columns:1fr 1fr}
+  .stmt-grid{grid-template-columns:1fr 1fr}
+  .pres{padding:20px 18px 60px}
+  .ced-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:520px){.ced-grid,.stmt-grid{grid-template-columns:1fr}.cap-stats{grid-template-columns:1fr}}
+</style>
+
+</head>
+<body>
+<div class="shell">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sb-top">
+    <div class="sb-logo-row">
+      <div class="sb-logo">C&K</div>
+      <div>
+        <div class="sb-title">Coxen & King → REAL</div>
+      </div>
+    </div>
+    <div class="sb-sub">Agent Presentation Tool · 2025</div>
+  </div>
+  <div class="sb-scroll">
+
+    <div class="sb-slbl">Select REAL Plan</div>
+    <div class="sb-plans">
+      <div class="sb-plan" id="sp-ind" onclick="setPlan('ind')">
+        <div class="sb-plan-name">Independent</div>
+        <div class="sb-plan-desc">$12k REAL cap · 85/15 on full GCI<br>No C&K split</div>
+      </div>
+      <div class="sb-plan" id="sp-hyb" onclick="setPlan('hyb')">
+        <div class="sb-plan-name">Hybrid</div>
+        <div class="sb-plan-desc">5% to C&K off top · then $4k REAL cap<br>85/15 on YOUR 95% only</div>
+      </div>
+      <div class="sb-plan pa-team" id="sp-team" onclick="setPlan('team')">
+        <div class="sb-plan-name">Team Member</div>
+        <div class="sb-plan-desc">50/50 to C&K off top · then $4k REAL cap<br>85/15 on YOUR 50% only</div>
+      </div>
+    </div>
+
+    <div class="sb-slbl">Select Agent</div>
+    <!-- LOCKED AGENT SELECTOR -->
+    <div style="padding:0 10px 8px">
+      <div style="font-size:10px;color:rgba(255,255,255,.3);margin-bottom:8px;line-height:1.5;padding:0 2px">Type an agent's name to find them. Names are hidden for privacy.</div>
+      <div style="position:relative">
+        <input id="agent-search" type="text" placeholder="Search agent name..." autocomplete="off"
+          style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:9px 12px 9px 34px;font-size:12px;color:#fff;font-family:var(--font-d);outline:none;transition:border-color .15s"
+          oninput="filterAgents(this.value)"
+          onfocus="this.style.borderColor='var(--mg)'"
+          onblur="this.style.borderColor='rgba(255,255,255,.15)'"/>
+        <div style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;color:rgba(255,255,255,.3);pointer-events:none">⌕</div>
+      </div>
+    </div>
+    <div class="sb-agents" id="sb-agents"></div>
+
+    <div class="sb-custom-btn" id="sb-custom-btn" onclick="showCustom()">
+      <div class="sb-custom-icon">+</div>
+      <span>Custom / New Agent</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="main-area">
+  <!-- PDF EXPORT BAR (hidden until agent loaded) -->
+  <div class="pdf-bar" id="pdf-bar" style="display:none">
+    <div class="pdf-bar-left">
+      <span>▶</span>
+      <strong id="pdf-bar-name">Agent Presentation</strong>
+      <span style="color:rgba(255,255,255,.25)">·</span>
+      <span id="pdf-bar-plan">REAL</span>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="pdf-export-btn" id="edit-agent-btn" onclick="editCurrentAgent()" style="background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 2l3 3-8 8H3v-3l8-8z"/></svg>
+        Edit Numbers
+      </button>
+      <button class="pdf-export-btn" onclick="exportPDF()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h8M8 2v8M5 7l3 3 3-3"/></svg>
+        Export PDF
+      </button>
+    </div>
+  </div>
+  <div class="welcome" id="welcome-screen">
+    <h2>Select an <span>agent</span><br>to present</h2>
+    <p>Choose a REAL plan from the sidebar, then pick any agent or click <strong>Custom / New Agent</strong> to enter any producer's numbers from scratch.</p>
+    <div class="welcome-hint">← Select a plan · choose an agent · or build a custom one</div>
+  </div>
+
+  <!-- CUSTOM EDITOR -->
+  <div class="ced" id="custom-editor" style="display:none">
+    <div class="ced-head">
+      <div class="ced-head-left">
+        <h2 id="ced-title">Custom <span>Agent Builder</span></h2>
+        <p id="ced-subtitle">Enter any agent's numbers — everything recalculates instantly. Adjustable at any time.</p>
+      </div>
+      <button class="ced-apply" onclick="applyCustom()" id="ced-apply-btn">Generate Presentation →</button>
+    </div>
+    <div class="ced-grid">
+      <div class="ced-field">
+        <div class="ced-lbl">Agent name</div>
+        <div class="ced-iw"><input class="ced-in" id="ce-name" type="text" placeholder="e.g. Sarah Johnson" oninput="liveCustom()"/></div>
+      </div>
+      <div class="ced-field">
+        <div class="ced-lbl">Deals closed <em>(year)</em></div>
+        <div class="ced-iw"><input class="ced-in" id="ce-deals" type="number" value="10" min="0" oninput="ceAutoGCI();liveCustom()"/><span class="ced-suf">deals</span></div>
+      </div>
+      <div class="ced-field">
+        <div class="ced-lbl">Total GCI</div>
+        <div class="ced-iw"><span class="ced-pre">$</span><input class="ced-in" id="ce-gci" type="number" value="150000" oninput="liveCustom()"/></div>
+        <div class="ced-note">Or use avg price + rate below to auto-fill</div>
+      </div>
+      <div class="ced-field">
+        <div class="ced-lbl">Avg sale price <em>(optional)</em></div>
+        <div class="ced-iw"><span class="ced-pre">$</span><input class="ced-in" id="ce-price" type="number" value="0" placeholder="0" oninput="ceAutoGCI()"/></div>
+      </div>
+      <div class="ced-field">
+        <div class="ced-lbl">Avg commission rate <em>(optional)</em></div>
+        <div class="ced-iw"><input class="ced-in" id="ce-rate" type="number" value="2.5" step="0.1" oninput="ceAutoGCI()"/><span class="ced-suf">%</span></div>
+      </div>
+      <div class="ced-field">
+        <div class="ced-lbl">Total volume</div>
+        <div class="ced-iw"><span class="ced-pre">$</span><input class="ced-in" id="ce-vol" type="number" value="0" placeholder="0" oninput="liveCustom()"/></div>
+      </div>
+      <div class="ced-field">
+        <div class="ced-lbl">Current brokerage split / fees <em>(total)</em></div>
+        <div class="ced-iw"><span class="ced-pre">$</span><input class="ced-in" id="ce-cs" type="number" value="5000" oninput="liveCustom()"/></div>
+        <div class="ced-note">All fees paid to current brokerage</div>
+      </div>
+      <div class="ced-field">
+        <div class="ced-lbl">Monthly / desk fees <em>(annual total)</em></div>
+        <div class="ced-iw"><span class="ced-pre">$</span><input class="ced-in" id="ce-extra" type="number" value="0" placeholder="0" oninput="liveCustom()"/></div>
+        <div class="ced-note">e.g. $150/mo = $1,800/yr — added to current costs</div>
+      </div>
+      <div class="ced-field">
+        <div class="ced-lbl">Current agent net <em>(auto if blank)</em></div>
+        <div class="ced-iw"><span class="ced-pre">$</span><input class="ced-in" id="ce-net" type="number" placeholder="auto" oninput="liveCustom()"/></div>
+        <div class="ced-note">Leave blank → auto = GCI − split − extra fees</div>
+      </div>
+    </div>
+    <div class="ced-footer">
+      <button class="ced-apply" onclick="applyCustom()" id="ced-apply-btn2">Generate Presentation →</button>
+      <button class="ced-reset" onclick="cancelEdit()" id="ced-cancel-btn" style="display:none">← Back</button>
+      <button class="ced-reset" onclick="resetCustom()" id="ced-reset-btn">Reset</button>
+      <span class="ced-live" id="ce-live"></span>
+    </div>
+  </div>
+
+  <!-- PRESENTATION OUTPUT -->
+  <div id="pres-area"></div>
+</div><!-- /main -->
+</div><!-- /shell -->
+
+<!-- PRINT CONTAINER — hidden on screen, shown only during print -->
+<div id="print-container">
+  <div id="print-header">
+    <div id="print-header-logo"><strong>Coxen &amp; King → REAL</strong> · Agent Presentation</div>
+    <div id="print-header-date"></div>
+  </div>
+  <div id="print-pres"></div>
+</div>
+
+<script>
+/* ═══════════════════════ DATA ═══════════════════════ */
+const DESK=1800; // $150/mo × 12 — paid by all agents in 2025
+const CURR_TX=400; // $400/deal covers per-transaction costs at current brokerage
+const AGENTS=[
+  {name:"Michael Coxen LLC",   ini:"MC",deals:29,vol:20702945,gci:467848.69,desk:DESK,get csBase(){return this.deals*CURR_TX}, get cs(){return this.csBase+this.desk}, get anet(){return this.gci-this.cs}},
+  {name:"Tom Heuser LLC",      ini:"TH",deals:20,vol:14383919,gci:306550.94,desk:DESK,get csBase(){return this.deals*CURR_TX}, get cs(){return this.csBase+this.desk}, get anet(){return this.gci-this.cs}},
+  {name:"Brian Mangino LLC",   ini:"BM",deals:12,vol:5682296, gci:160167.38,desk:DESK,get csBase(){return this.deals*CURR_TX}, get cs(){return this.csBase+this.desk}, get anet(){return this.gci-this.cs}},
+  {name:"Michelle Villalobos LLC",ini:"MV",deals:18,vol:6346477,gci:152070.95,desk:DESK,get csBase(){return this.deals*CURR_TX}, get cs(){return this.csBase+this.desk}, get anet(){return this.gci-this.cs}},
+  {name:"Soon Ju Kwon",        ini:"SJ",deals:13,vol:6661529, gci:149455.30,desk:DESK,get csBase(){return this.deals*CURR_TX}, get cs(){return this.csBase+this.desk}, get anet(){return this.gci-this.cs}},
+  {name:"Michelle White",      ini:"MW",deals:12,vol:4380498, gci:116518.83,desk:DESK,get csBase(){return this.deals*CURR_TX}, get cs(){return this.csBase+this.desk}, get anet(){return this.gci-this.cs}},
+  {name:"Jill DuMay",          ini:"JD",deals:3, vol:5685000, gci:73212.50, desk:DESK,get csBase(){return this.deals*CURR_TX}, get cs(){return this.csBase+this.desk}, get anet(){return this.gci-this.cs}},
+  {name:"Liscone Paranis LLC", ini:"LP",deals:6, vol:3037800, gci:73886.25, desk:DESK,get csBase(){return this.deals*CURR_TX}, get cs(){return this.csBase+this.desk}, get anet(){return this.gci-this.cs}},
+  {name:"Brian Heuser LLC",    ini:"BH",deals:5, vol:2829413, gci:69257.26, desk:DESK,get csBase(){return this.deals*CURR_TX}, get cs(){return this.csBase+this.desk}, get anet(){return this.gci-this.cs}},
+  {name:"Kiersten Marcos",     ini:"KM",deals:6, vol:2802495, gci:65887.50, desk:DESK,get csBase(){return this.deals*CURR_TX}, get cs(){return this.csBase+this.desk}, get anet(){return this.gci-this.cs}},
+  {name:"Carmen Deam",         ini:"CD",deals:2, vol:20635000,gci:59550.00, desk:DESK,get csBase(){return this.deals*CURR_TX}, get cs(){return this.csBase+this.desk}, get anet(){return this.gci-this.cs}},
+  {name:"Dan Robson",          ini:"DR",deals:4, vol:1714250, gci:45756.25, desk:DESK,get csBase(){return this.deals*CURR_TX}, get cs(){return this.csBase+this.desk}, get anet(){return this.gci-this.cs}},
+  {name:"Hender Morel",        ini:"HM",deals:2, vol:779800,  gci:24525.00, desk:DESK,get csBase(){return this.deals*CURR_TX}, get cs(){return this.csBase+this.desk}, get anet(){return this.gci-this.cs}},
+  {name:"Jeffrey S Barta LLC", ini:"JB",deals:3, vol:653290,  gci:17500.00, desk:DESK,get csBase(){return this.deals*CURR_TX}, get cs(){return this.csBase+this.desk}, get anet(){return this.gci-this.cs}},
+  {name:"Amanda Karszes",      ini:"AK",deals:2, vol:226900,  gci:7450.00,  desk:DESK,get csBase(){return this.deals*CURR_TX}, get cs(){return this.csBase+this.desk}, get anet(){return this.gci-this.cs}},
+  {name:"Serena Heuser LLC",   ini:"SH",deals:0, vol:0,       gci:0,        desk:DESK,get csBase(){return this.deals*CURR_TX}, get cs(){return this.csBase+this.desk}, get anet(){return this.gci-this.cs}},
+  {name:"Jem Relox Navarro",   ini:"JR",deals:1, vol:5000,    gci:0,        desk:DESK,get csBase(){return this.deals*CURR_TX}, get cs(){return this.csBase+this.desk}, get anet(){return this.gci-this.cs}},
+];
+
+/* ═══════════════════════ PLAN DEFINITIONS ═══════════════════════
+  REAL always gets 85/15 split up to cap — that's the REAL cap.
+  C&K split is ON TOP of the REAL structure:
+    Independent: no C&K split, REAL cap = $12,000
+    Hybrid:      5% of gross GCI to C&K on every deal, REAL cap = $4,000
+    Team:        50% of gross GCI to C&K on every deal, REAL cap = $4,000
+  The agent's "agentGCI" for REAL cap purposes = GCI after C&K split.
+  REAL 85/15 is applied to that agent share until $4k/$12k accumulated.
+════════════════════════════════════════════════════════════════ */
+const PLANS={
+  ind:{
+    key:'ind', name:'Independent', realCap:12000, realSplit:.15,
+    ckRate:0, ckLabel:'None', ckName:'',
+    label:'$12,000 REAL cap · 85/15 on your full GCI',
+    shortLabel:'$12k cap · Independent',
+    badgeClass:'b-ind', paClass:'pa-ind', cfClass:'cf-ind',
+    // Money flow: Full GCI → REAL takes 15% until $12k cap → agent keeps 85% (then 100% post-cap)
+    desc:'Your full GCI flows directly to REAL. REAL takes 15% of YOUR commission until you accumulate $12,000 paid to them — that is the cap. After you cap, you keep 100% and only pay a flat $325 per deal ($285 tx fee + $40 CBR). No Coxen & King split.',
+    flowSteps:[
+      {label:'Gross GCI',color:'var(--ink)',sub:'Your full commission'},
+      {label:'REAL 85/15',color:'var(--mg)',sub:'15% to REAL · on YOUR GCI · until $12k cap'},
+      {label:'Your Net',color:'var(--tl)',sub:'85% of GCI (pre-cap) · 100% post-cap'},
+    ]
+  },
+  hyb:{
+    key:'hyb', name:'Hybrid', realCap:4000, realSplit:.15,
+    ckRate:.05, ckLabel:'5% to Coxen & King', ckName:'Coxen & King Group',
+    label:'$4,000 REAL cap · 85/15 on YOUR 95% · + 5% to C&K',
+    shortLabel:'$4k cap · Hybrid · +5% C&K',
+    badgeClass:'b-hyb', paClass:'pa-hyb', cfClass:'cf-hyb',
+    // Money flow: Gross GCI → 5% to C&K → 95% is YOUR share → REAL takes 15% of YOUR 95% until $4k cap
+    desc:'5% of the gross commission goes to Coxen & King on every deal — that is their split, separate from REAL entirely. YOUR remaining 95% is what flows to REAL. REAL then takes 15% of YOUR 95% only, until you accumulate $4,000 paid to REAL. REAL never sees the C&K portion. After you cap: $325 flat per deal to REAL, 5% C&K still applies every deal.',
+    flowSteps:[
+      {label:'Gross GCI',color:'var(--ink)',sub:'Full commission earned'},
+      {label:'5% → C&K',color:'var(--gold)',sub:'Coxen & King split — off the top · every deal'},
+      {label:'Your 95%',color:'var(--ink2)',sub:'YOUR share — this is what REAL calculates on'},
+      {label:'REAL 85/15',color:'var(--mg)',sub:'15% of YOUR 95% to REAL · until $4k cap only'},
+      {label:'Your Net',color:'var(--tl)',sub:'Your 95% minus REAL\'s 15% (pre-cap) or flat $325 (post-cap)'},
+    ]
+  },
+  team:{
+    key:'team', name:'Team Member', realCap:4000, realSplit:.15,
+    ckRate:.50, ckLabel:'50% to Coxen & King', ckName:'Coxen & King Group',
+    label:'$4,000 REAL cap · 85/15 on YOUR 50% · + 50/50 to C&K',
+    shortLabel:'$4k cap · Team · 50/50 C&K',
+    badgeClass:'b-team', paClass:'pa-team', cfClass:'cf-team',
+    // Money flow: Gross GCI → 50% to C&K → 50% is YOUR share → REAL takes 15% of YOUR 50% until $4k cap
+    desc:'50% of the gross commission goes to Coxen & King on every deal — that is the team split, paid directly to C&K. YOUR remaining 50% is what flows to REAL. REAL then takes 15% of YOUR 50% only, until you accumulate $4,000 paid to REAL. REAL never calculates on C&K\'s half. After you cap: $325 flat per deal to REAL, 50/50 still applies every deal.',
+    flowSteps:[
+      {label:'Gross GCI',color:'var(--ink)',sub:'Full commission earned'},
+      {label:'50% → C&K',color:'var(--gold)',sub:'Coxen & King team split — off the top · every deal'},
+      {label:'Your 50%',color:'var(--ink2)',sub:'YOUR share — this is what REAL calculates on'},
+      {label:'REAL 85/15',color:'var(--mg)',sub:'15% of YOUR 50% to REAL · until $4k cap only'},
+      {label:'Your Net',color:'var(--tl)',sub:'Your 50% minus REAL\'s 15% (pre-cap) or flat $325 (post-cap)'},
+    ]
+  },
+};
+
+const COLORS=['#1b365d','#0099aa','#e8185a','#2e4a72','#0099aa','#1b365d','#e8185a','#2e4a72','#0099aa','#1b365d','#e8185a','#2e4a72','#0099aa','#1b365d','#e8185a','#2e4a72','#1b365d'];
+
+let activePlan='team';
+let activeAgentIdx=null;
+let isCustom=false;
+
+/* ═══════════════════════ MATH ═══════════════════════ */
+function fmt(n){
+  if(!isFinite(n)||n===null)return'—';
+  return(n<0?'-$':'$')+Math.abs(Math.round(n)).toLocaleString();
+}
+function pct(n){
+  if(!isFinite(n))return'0.0%';
+  return(n*100).toFixed(1)+'%';
+}
+function mkIni(name){
+  return(name||'').trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase()||'??';
+}
+
+/* Full-year simulation
+   - C&K split taken from gross GCI each deal
+   - Agent share = GCI * (1 - P.ckRate)
+   - REAL 85/15 applied to agent share until realCap reached
+   - Annual $750 fee ($250 × first 3 deals)
+   - CBR $40 every deal
+   - Post-cap $285 every deal after REAL cap hit
+*/
+function fyCalc(pk, a){
+  const P=PLANS[pk];
+  if(a.deals===0||a.gci===0){
+    // No deals = no fees. The $750 annual fee is collected $250 at each of the first 3 closings.
+    // Zero deals means zero closings means zero fees — not even the annual fee.
+    return{
+      net:0, totalFees:0, realSplit:0, realPost:0, cbr:0, annual:0,
+      ckTotal:0, agentShareTotal:0, capped:false, realYTD:0,
+      dlogs:[], P
+    };
+  }
+  const pgci=a.gci/a.deals; // avg GCI per deal
+  let realYTD=0;
+  let totalRealSplit=0,totalRealPost=0,totalCBR=0,totalAnnual=0,totalCK=0;
+  let capped=false;
+  const dlogs=[];
+
+  for(let i=1;i<=a.deals;i++){
+    // C&K takes their share off the top every deal
+    const ckD=pgci*P.ckRate;
+    totalCK+=ckD;
+    const agD=pgci-ckD; // what flows through REAL
+
+    const cbrD=40; totalCBR+=cbrD;
+    const annD=i<=3?250:0; totalAnnual+=annD;
+
+    const rem=Math.max(0,P.realCap-realYTD);
+    let splitD=0, postD=0, capMoment=false;
+    if(rem<=0){
+      // already capped — post-cap fee applies
+      postD=285; totalRealPost+=postD; capped=true;
+    } else {
+      const would=agD*P.realSplit;
+      if(would>=rem){
+        // caps on this deal — only pay remaining split, NO post-cap fee this deal
+        // post-cap fee starts on the NEXT deal (REAL policy: split OR fee, never both)
+        splitD=rem; realYTD+=rem;
+        capped=true; capMoment=true;
+        // NO postD here — post-cap starts next deal
+      } else {
+        splitD=would; realYTD+=would;
+      }
+    }
+    totalRealSplit+=splitD;
+
+    const feesD=ckD+splitD+cbrD+annD+postD;
+    const netD=pgci-feesD;
+    dlogs.push({
+      d:i, gci:pgci,
+      ck:ckD, agShare:agD,
+      split:splitD, cbr:cbrD, ann:annD, post:postD,
+      fees:feesD, net:netD,
+      isCapped:realYTD>=P.realCap,
+      capMoment, realYTDAfter:Math.min(realYTD,P.realCap)
+    });
+  }
+
+  const totalFees=totalCK+totalRealSplit+totalCBR+totalAnnual+totalRealPost;
+  return{
+    net:a.gci-totalFees,
+    totalFees, realSplit:totalRealSplit,
+    realPost:totalRealPost, cbr:totalCBR,
+    annual:totalAnnual, ckTotal:totalCK,
+    agentShareTotal:a.gci-totalCK,
+    capped, realYTD:Math.min(realYTD,P.realCap),
+    dlogs, P
+  };
+}
+
+/* ═══════════════════════ SIDEBAR ═══════════════════════ */
+function maskName(name){
+  // Show first name only, mask last name: "Michael C***"
+  const parts=name.replace(' LLC','').replace(' llc','').trim().split(/\s+/);
+  if(parts.length===1) return parts[0];
+  return parts[0]+' '+parts[1][0]+'***';
+}
+
+function buildSidebar(){
+  renderAgentList('');
+}
+
+function renderAgentList(query){
+  const q=query.trim().toLowerCase();
+  const el=document.getElementById('sb-agents');
+  const filtered=AGENTS.filter((_,i)=>i===activeAgentIdx||q===''||AGENTS[i].name.toLowerCase().includes(q));
+  if(filtered.length===0){
+    el.innerHTML=`<div style="padding:10px 12px;font-size:11px;color:rgba(255,255,255,.3);font-style:italic">No agents found</div>`;
+    return;
+  }
+  el.innerHTML=AGENTS.map((a,i)=>{
+    const matches=q===''||a.name.toLowerCase().includes(q);
+    if(!matches) return '';
+    const display=q.length>=2?a.name:maskName(a.name);
+    const editedTag=a.isEdited?`<span style="font-size:8px;background:rgba(0,153,170,.2);color:#7ee8f4;border-radius:3px;padding:1px 5px;margin-left:4px;font-family:var(--font-m);vertical-align:middle">edited</span>`:'';
+    return`<div class="sb-agent" id="sba-${i}" onclick="selectAgent(${i})">
+      <div class="sb-agent-name">${display}${editedTag}</div>
+      <div class="sb-agent-meta">${q.length>=2?a.deals+'d · '+fmt(a.gci):'···'}</div>
+    </div>`;
+  }).join('');
+  // Re-highlight active
+  if(activeAgentIdx!==null) document.getElementById('sba-'+activeAgentIdx)?.classList.add('active');
+}
+
+function filterAgents(val){
+  renderAgentList(val);
+}
+
+function selectAgent(idx){
+  // Clear search after selection so others are masked again
+  const searchEl=document.getElementById('agent-search');
+  if(searchEl) searchEl.value='';
+  showAgent(idx);
+  renderAgentList('');
+}
+
+function setPlan(pk){
+  activePlan=pk;
+  ['ind','hyb','team'].forEach(k=>{
+    document.getElementById('sp-'+k).className='sb-plan'+(k===pk?' '+PLANS[k].paClass:'');
+  });
+  if(isCustom) applyCustom();
+  else if(activeAgentIdx!==null) renderPresentation(AGENTS[activeAgentIdx], false, activeAgentIdx);
+}
+
+/* ═══════════════════════ AGENTS ═══════════════════════ */
+function showAgent(idx){
+  isCustom=false; activeAgentIdx=idx;
+  document.querySelectorAll('.sb-agent').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sba-'+idx)?.classList.add('active');
+  document.getElementById('sb-custom-btn').classList.remove('active');
+  document.getElementById('welcome-screen').style.display='none';
+  document.getElementById('custom-editor').style.display='none';
+  renderPresentation(AGENTS[idx], false, idx);
+}
+
+/* ═══════════════════════ CUSTOM / EDIT ═══════════════════════ */
+let editingAgentIdx=null; // null = new custom, number = editing saved agent
+
+function showCustom(){
+  editingAgentIdx=null;
+  isCustom=true; activeAgentIdx=null;
+  document.querySelectorAll('.sb-agent').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sb-custom-btn').classList.add('active');
+  document.getElementById('welcome-screen').style.display='none';
+  document.getElementById('custom-editor').style.display='block';
+  document.getElementById('pdf-bar').style.display='none';
+  // Set editor to "new" mode UI
+  document.getElementById('ced-title').innerHTML='Custom <span>Agent Builder</span>';
+  document.getElementById('ced-subtitle').textContent='Enter any agent\'s numbers — everything recalculates instantly.';
+  document.getElementById('ced-apply-btn').textContent='Generate Presentation →';
+  document.getElementById('ced-apply-btn2').textContent='Generate Presentation →';
+  document.getElementById('ced-cancel-btn').style.display='none';
+  document.getElementById('ced-reset-btn').style.display='';
+  document.getElementById('pres-area').innerHTML=`<div style="padding:28px 32px;color:var(--muted);font-size:13px;font-weight:300">Fill in the agent details above and click <strong style="color:var(--ink)">Generate Presentation →</strong></div>`;
+}
+
+function editCurrentAgent(){
+  // Load the current agent's data into the editor
+  const idx=activeAgentIdx;
+  if(idx===null) return;
+  const a=AGENTS[idx];
+  editingAgentIdx=idx;
+  isCustom=false; // keep activeAgentIdx so we know which agent we're editing
+
+  document.getElementById('custom-editor').style.display='block';
+  document.getElementById('pdf-bar').style.display='none';
+  document.getElementById('main-area').scrollTop=0;
+
+  // Set editor to "edit" mode UI
+  document.getElementById('ced-title').innerHTML=`Edit <span>${a.name}</span>`;
+  document.getElementById('ced-subtitle').textContent='Adjust any numbers — click Update to regenerate the presentation.';
+  document.getElementById('ced-apply-btn').textContent='Update Presentation →';
+  document.getElementById('ced-apply-btn2').textContent='Update Presentation →';
+  document.getElementById('ced-cancel-btn').style.display='';
+  document.getElementById('ced-reset-btn').style.display='none';
+
+  // Pre-fill with agent's data — split csBase and desk separately so both are editable
+  document.getElementById('ce-name').value=a.name;
+  document.getElementById('ce-deals').value=a.deals;
+  document.getElementById('ce-gci').value=a.gci;
+  document.getElementById('ce-vol').value=a.vol||0;
+  document.getElementById('ce-cs').value=a.csBase!=null?a.csBase:a.cs;
+  document.getElementById('ce-extra').value=a.desk||a.extraFees||0;
+  document.getElementById('ce-net').value=''; // auto-calc from fields
+  document.getElementById('ce-price').value=0;
+  document.getElementById('ce-rate').value=2.5;
+  liveCustom();
+}
+
+function cancelEdit(){
+  // Go back to the agent's presentation without changes
+  document.getElementById('custom-editor').style.display='none';
+  if(editingAgentIdx!==null){
+    showAgent(editingAgentIdx);
+  } else {
+    document.getElementById('welcome-screen').style.display='';
+  }
+  editingAgentIdx=null;
+}
+
+function ceAutoGCI(){
+  const price=parseFloat(document.getElementById('ce-price').value)||0;
+  const rate=parseFloat(document.getElementById('ce-rate').value)||0;
+  const deals=parseInt(document.getElementById('ce-deals').value)||0;
+  if(price>0&&rate>0&&deals>0){
+    document.getElementById('ce-gci').value=Math.round(price*(rate/100)*deals);
+    document.getElementById('ce-vol').value=Math.round(price*deals);
+  }
+  liveCustom();
+}
+
+function liveCustom(){
+  const gci=parseFloat(document.getElementById('ce-gci').value)||0;
+  const cs=parseFloat(document.getElementById('ce-cs').value)||0;
+  const extra=parseFloat(document.getElementById('ce-extra').value)||0;
+  const deals=parseInt(document.getElementById('ce-deals').value)||0;
+  const netIn=document.getElementById('ce-net').value;
+  const totalCurrentCost=cs+extra;
+  const anet=netIn!==''?parseFloat(netIn):gci-totalCurrentCost;
+  const a={name:'Preview',ini:'?',deals,vol:0,gci,cs:totalCurrentCost,anet};
+  const r=fyCalc(activePlan,a);
+  const diff=r.net-anet;
+  document.getElementById('ce-live').textContent=`Preview: REAL net ${fmt(r.net)} · ${diff>=0?'+':''}${fmt(diff)} vs current`;
+}
+
+function applyCustom(){
+  const name=document.getElementById('ce-name').value.trim()||'Custom Agent';
+  const deals=parseInt(document.getElementById('ce-deals').value)||0;
+  const gci=parseFloat(document.getElementById('ce-gci').value)||0;
+  const cs=parseFloat(document.getElementById('ce-cs').value)||0;
+  const extra=parseFloat(document.getElementById('ce-extra').value)||0;
+  const totalCurrentCost=cs+extra;
+  const netIn=document.getElementById('ce-net').value;
+  const anet=netIn!==''?parseFloat(netIn):gci-totalCurrentCost;
+  const vol=parseFloat(document.getElementById('ce-vol').value)||0;
+
+  const a={
+    name, ini:mkIni(name), deals, vol, gci,
+    cs:totalCurrentCost, // combined split + extra fees
+    csBase:cs,           // just the split portion
+    extraFees:extra,     // just the extra fees
+    anet, isCustom:editingAgentIdx===null
+  };
+
+  // If editing a saved agent, update the AGENTS array in memory
+  if(editingAgentIdx!==null){
+    AGENTS[editingAgentIdx]={...AGENTS[editingAgentIdx], ...a, isEdited:true};
+    activeAgentIdx=editingAgentIdx;
+    isCustom=false;
+    editingAgentIdx=null;
+  }
+
+  document.getElementById('custom-editor').style.display='none';
+  renderPresentation(a, a.isCustom, activeAgentIdx);
+}
+
+function resetCustom(){
+  document.getElementById('ce-name').value='';
+  document.getElementById('ce-deals').value='10';
+  document.getElementById('ce-gci').value='150000';
+  document.getElementById('ce-price').value='0';
+  document.getElementById('ce-rate').value='2.5';
+  document.getElementById('ce-vol').value='0';
+  document.getElementById('ce-cs').value='5000';
+  document.getElementById('ce-extra').value='0';
+  document.getElementById('ce-net').value='';
+  document.getElementById('ce-live').textContent='';
+}
+
+/* ═══════════════════════ RENDER ═══════════════════════ */
+function renderPresentation(a, customFlag, colorIdx){
+  const P=PLANS[activePlan];
+  const r=fyCalc(activePlan, a);
+  const currNet=a.anet;
+  const effCurr=a.gci>0?a.cs/a.gci:0;
+  const effReal=a.gci>0?r.totalFees/a.gci:0;
+  const color=customFlag?'#0099aa':COLORS[(colorIdx||0)%COLORS.length];
+  const aIni=customFlag?mkIni(a.name):(a.ini||mkIni(a.name));
+  const capLeft=Math.max(0,P.realCap-r.realYTD);
+  const capPct=Math.min(100,(r.realYTD/P.realCap)*100);
+  const firstName=a.name.split(/\s+/)[0];
+
+  // ── STOCK VALUE CALCULATION (done up front so it feeds the comparison numbers) ──
+  const sharePrice=2.40;
+  const maxPreCap=P.realCap===4000?850:P.realCap===6000?1700:3400;
+  const maxPostCap=P.realCap===4000?5000:P.realCap===6000?7500:15000;
+  let sppPreContrib=0,sppPreBonus=0,sppPostContrib=0,sppPostBonus=0;
+  let preCapDoneStock=false;
+  r.dlogs.forEach(d=>{
+    if(!preCapDoneStock){
+      const contrib=Math.min(d.net*0.05,maxPreCap-sppPreContrib);
+      if(contrib>0){sppPreContrib+=contrib;sppPreBonus+=contrib*0.10;}
+      if(d.isCapped) preCapDoneStock=true;
+    } else {
+      const contrib=Math.min(d.net*0.10,maxPostCap-sppPostContrib);
+      if(contrib>0){sppPostContrib+=contrib;sppPostBonus+=contrib*0.15;}
+    }
+  });
+  const sppTotalInvested=sppPreContrib+sppPostContrib;
+  const sppBonusOnly=sppPreBonus+sppPostBonus; // only the FREE bonus shares count as added value
+  const cappingShares=r.capped?(P.realCap===12000?150:P.realCap===6000?75:50):0;
+  const cappingAwardValue=cappingShares*sharePrice;
+  const sppTotalValue=sppTotalInvested+sppPreBonus+sppPostBonus;
+  const totalPostCapFees=r.realPost;
+  const eliteViaTxFees=totalPostCapFees>=6000;
+  const eliteViaGCI=a.gci>=500000;
+  const eliteEligible=eliteViaTxFees||eliteViaGCI;
+  const eliteAwardValue=16000;
+  const eliteAcademyValue=8000;
+  const totalConservative=sppTotalValue+cappingAwardValue+(eliteEligible?eliteAwardValue:0);
+  const totalWithElite=totalConservative+(eliteEligible?eliteAcademyValue:0);
+  const attractionPerRecruit=75*sharePrice;
+
+  // Stock value added to REAL net for comparison:
+  // We use the FREE portions only (bonuses + awards) — not the SPP contributions the agent makes
+  // since those are their own money redirected, not new income
+  const stockFreeValue=sppBonusOnly+cappingAwardValue+(eliteEligible?eliteAwardValue+eliteAcademyValue:0);
+  const totalStockValue=eliteEligible?totalWithElite:totalConservative; // full SPP + all free awards
+  const realNetWithStock=r.net+totalStockValue;
+  const diff=realNetWithStock-currNet;
+
+  /* ── MONEY FLOW DIAGRAM ── */
+  const flowArrow=`<div style="display:flex;align-items:center;justify-content:center;color:var(--border2);font-size:18px;padding:0 4px">→</div>`;
+  const flowSteps=P.flowSteps.map((s,i)=>{
+    const isLast=i===P.flowSteps.length-1;
+    const isCK=s.color==='var(--gold)';
+    const isREAL=s.color==='var(--mg)';
+    return`<div style="flex:1;min-width:0;background:${isLast?'var(--tl-bg)':isCK?'var(--gold-bg)':isREAL?'var(--mg-bg)':'var(--s1)'};border:1.5px solid ${isLast?'var(--tl2)':isCK?'var(--gold)':isREAL?'var(--mg)':'var(--border)'};border-radius:10px;padding:12px 14px">
+      <div style="font-size:11px;font-weight:800;color:${s.color};font-family:var(--font-d);margin-bottom:3px">${s.label}</div>
+      <div style="font-size:10px;color:var(--muted);font-weight:300;line-height:1.4">${s.sub}</div>
+    </div>`;
+  }).join(flowArrow);
+
+  const flowDiagram=`<div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--rl);padding:20px 22px;margin-bottom:20px">
+    <div style="font-size:9.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:14px">How your money flows — ${P.name} plan</div>
+    <div style="display:flex;align-items:stretch;gap:6px;flex-wrap:wrap">${flowSteps}</div>
+    <div style="margin-top:14px;padding:12px 16px;background:var(--s1);border-radius:8px;border:1px solid var(--border)">
+      <div style="font-size:12px;color:var(--ink2);line-height:1.7;font-weight:400">${P.desc}</div>
+    </div>
+  </div>`;
+
+  /* ── PLAN EXPLAINER ROWS ── */
+  const planRows=P.key==='ind'
+    ?`<div class="pe-row"><div class="pe-row-top">REAL calculates on</div><div class="pe-row-val">Full GCI</div><div class="pe-row-sub">100% of your commission</div></div>
+       <div class="pe-row"><div class="pe-row-top">REAL cap</div><div class="pe-row-val">$12,000</div><div class="pe-row-sub">15% of full GCI to REAL</div></div>
+       <div class="pe-row"><div class="pe-row-top">C&K split</div><div class="pe-row-val">None</div><div class="pe-row-sub">No team split</div></div>
+       <div class="pe-row"><div class="pe-row-top">Post-cap cost</div><div class="pe-row-val">$325/deal</div><div class="pe-row-sub">$285 tx + $40 CBR flat</div></div>`
+    :P.key==='hyb'
+    ?`<div class="pe-row"><div class="pe-row-top">C&K takes first</div><div class="pe-row-val">5% off top</div><div class="pe-row-sub">Every deal · paid to C&K directly</div></div>
+       <div class="pe-row"><div class="pe-row-top">REAL calculates on</div><div class="pe-row-val">YOUR 95%</div><div class="pe-row-sub">REAL never sees C&K's 5%</div></div>
+       <div class="pe-row"><div class="pe-row-top">REAL cap</div><div class="pe-row-val">$4,000</div><div class="pe-row-sub">15% of YOUR 95% to REAL</div></div>
+       <div class="pe-row"><div class="pe-row-top">Post-cap cost</div><div class="pe-row-val">$325 + 5%</div><div class="pe-row-sub">$325 flat to REAL · 5% C&K continues</div></div>`
+    :`<div class="pe-row"><div class="pe-row-top">C&K takes first</div><div class="pe-row-val">50% off top</div><div class="pe-row-sub">Every deal · paid to C&K directly</div></div>
+       <div class="pe-row"><div class="pe-row-top">REAL calculates on</div><div class="pe-row-val">YOUR 50%</div><div class="pe-row-sub">REAL never sees C&K's 50%</div></div>
+       <div class="pe-row"><div class="pe-row-top">REAL cap</div><div class="pe-row-val">$4,000</div><div class="pe-row-sub">15% of YOUR 50% to REAL</div></div>
+       <div class="pe-row"><div class="pe-row-top">Post-cap cost</div><div class="pe-row-val">$325 + 50%</div><div class="pe-row-sub">$325 flat to REAL · 50/50 C&K continues</div></div>`;
+
+  const planClass=P.key==='ind'?'pe-ind':P.key==='hyb'?'pe-hyb':'pe-team';
+
+  /* ── FEE CARDS ── */
+  const agentShareLabel=P.key==='ind'?'Your full GCI':P.key==='hyb'?'Your 95% share (after 5% C&K)':'Your 50% share (after 50% C&K)';
+  const realOnlyFees=r.realSplit+r.realPost+r.cbr+r.annual;
+
+  // Current brokerage card
+  const nowCard=`<div class="fc now">
+    <div class="fc-head"><div class="fc-head-lbl">Current brokerage</div><h3>What you paid in 2025</h3></div>
+    <div class="fc-body">
+      <div class="fc-row"><span class="fc-row-lbl">Total GCI</span><span class="fc-row-val">${fmt(a.gci)}</span></div>
+      <div class="fc-row"><span class="fc-row-lbl">Company split / fees</span><span class="fc-row-val neg">−${fmt(a.csBase||a.cs)}</span></div>
+      ${(a.desk||a.extraFees)>0?`<div class="fc-row" style="border-left:3px solid var(--rd);padding-left:10px;margin-left:-4px"><span class="fc-row-lbl">Monthly / desk fees<br><span style="font-size:10px;color:var(--muted)">$150/mo × 12 months</span></span><span class="fc-row-val neg">−${fmt(a.desk||a.extraFees)}</span></div>`:'<div class="fc-row"><span class="fc-row-lbl">Monthly / desk fees</span><span class="fc-row-val dim">Varies</span></div>'}
+      <div class="fc-row"><span class="fc-row-lbl">CRM / Technology</span><span class="fc-row-val dim">Included</span></div>
+      <div class="fc-row"><span class="fc-row-lbl">Effective fee rate</span><span class="fc-row-val">${pct(effCurr)}</span></div>
+    </div>
+    <div class="fc-foot"><span class="fc-foot-lbl">Agent net</span><span class="fc-foot-val">${fmt(currNet)}</span></div>
+  </div>`;
+
+  // C&K card — FIRST in order for hyb/team to show the split comes off the top
+  const ckCard=P.ckRate>0?`<div class="fc ck">
+    <div class="fc-head"><div class="fc-head-lbl">Step 1 — Coxen & King split</div><h3>${P.ckLabel} · paid first</h3></div>
+    <div class="fc-body">
+      <div class="fc-row"><span class="fc-row-lbl" style="font-weight:600;color:var(--ink)">Gross GCI</span><span class="fc-row-val" style="color:var(--ink)">${fmt(a.gci)}</span></div>
+      <div class="fc-row" style="border-left:3px solid var(--gold);padding-left:10px;margin-left:-4px"><span class="fc-row-lbl"><strong style="color:var(--ink)">${pct(P.ckRate)} off the top to C&K</strong><br><span style="font-size:10px;color:var(--muted)">Paid directly to Coxen & King · every deal · REAL never sees this</span></span><span class="fc-row-val gneg">−${fmt(r.ckTotal)}</span></div>
+      <div class="fc-row"><span class="fc-row-lbl" style="font-weight:600;color:var(--ink)">YOUR remaining share</span><span class="fc-row-val" style="color:var(--ink)">${fmt(r.agentShareTotal)}</span></div>
+      <div class="fc-row"><span class="fc-row-lbl">REAL's 85/15 calculated on</span><span class="fc-row-val" style="color:var(--aqua)">Your ${pct(1-P.ckRate)} only</span></div>
+      <div class="fc-row"><span class="fc-row-lbl">C&K split continues after cap?</span><span class="fc-row-val dim">Yes — every deal always</span></div>
+    </div>
+    <div class="fc-foot"><span class="fc-foot-lbl">Your share flows to REAL</span><span class="fc-foot-val">${fmt(r.agentShareTotal)}</span></div>
+  </div>`:'';
+
+  // REAL card — Step 2, calculates only on agent's portion
+  const realCard=`<div class="fc real">
+    <div class="fc-head"><div class="fc-head-lbl">${P.ckRate>0?'Step 2 — ':''}REAL Brokerage · ${fmt(P.realCap)} cap</div><h3>85/15 on ${P.key==='ind'?'your full GCI':'YOUR share only — not C&K\'s'}</h3></div>
+    <div class="fc-body">
+      <div class="fc-row"><span class="fc-row-lbl" style="font-weight:600;color:var(--ink)">${agentShareLabel}</span><span class="fc-row-val" style="color:var(--ink)">${fmt(r.agentShareTotal)}</span></div>
+      <div class="fc-row" style="border-left:3px solid var(--mg);padding-left:10px;margin-left:-4px"><span class="fc-row-lbl"><strong style="color:var(--ink)">REAL 85/15 — on YOUR share only</strong> <span class="chip c-pre">PRE-CAP</span><br><span style="font-size:10px;color:var(--muted)">15% of your ${P.key==='ind'?'full GCI':P.key==='hyb'?'95%':'50%'} until ${fmt(P.realCap)} accumulated · then stops</span></span><span class="fc-row-val neg">−${fmt(r.realSplit)}</span></div>
+      ${r.realPost>0?`<div class="fc-row" style="border-left:3px solid var(--tl);padding-left:10px;margin-left:-4px"><span class="fc-row-lbl"><strong style="color:var(--ink)">Post-cap tx fee — $285/deal</strong> <span class="chip c-post">POST-CAP</span><br><span style="font-size:10px;color:var(--muted)">$285 tx + $40 CBR = <strong style="color:var(--ink)">$325 total per deal</strong> — replaces the 15% split entirely</span></span><span class="fc-row-val neg">−${fmt(r.realPost)}</span></div>`:''}
+      <div class="fc-row"><span class="fc-row-lbl"><strong style="color:var(--ink)">CBR — E&O + compliance</strong> <span class="chip c-always">EVERY DEAL</span><br><span style="font-size:10px;color:var(--muted)">$40 per deal, always</span></span><span class="fc-row-val neg">−${fmt(r.cbr)}</span></div>
+      <div class="fc-row"><span class="fc-row-lbl"><strong style="color:var(--ink)">Annual fee</strong><br><span style="font-size:10px;color:var(--muted)">$250 × first 3 closings of the year</span></span><span class="fc-row-val neg">−${fmt(r.annual)}</span></div>
+      <div class="fc-row"><span class="fc-row-lbl" style="font-weight:600;color:var(--gn)">Monthly / desk / tech fees</span><span class="fc-row-val pos">$0</span></div>
+    </div>
+    <div class="fc-foot"><span class="fc-foot-lbl">Your net (after all fees)</span><span class="fc-foot-val">${fmt(r.net)}</span></div>
+  </div>`;
+
+  // Column layout — C&K first (off the top), then REAL, then current
+  const feeColsClass=P.ckRate>0?'fee-cols-3':'fee-cols-2';
+  const feeCards=P.ckRate>0?`${ckCard}${realCard}${nowCard}`:`${nowCard}${realCard}`;
+
+  // Combined total for hyb/team
+  const combinedTotal=P.ckRate>0?`<div class="combined-total">
+    <div class="ct-left"><strong>${P.name}</strong> — total cost on ${fmt(a.gci)} GCI · ${a.deals} deals</div>
+    <div class="ct-right">
+      <div class="ct-item"><div class="ct-item-lbl">C&K (${pct(P.ckRate)})</div><div class="ct-item-val gold">−${fmt(r.ckTotal)}</div></div>
+      <div class="ct-item"><div class="ct-item-lbl">REAL fees</div><div class="ct-item-val mg">−${fmt(realOnlyFees)}</div></div>
+      <div class="ct-item"><div class="ct-item-lbl">Agent net</div><div class="ct-item-val tl">${fmt(r.net)}</div></div>
+    </div>
+  </div>`:'';
+
+  /* ── DEAL TIMELINE ── */
+  const showN=Math.min(r.dlogs.length,10);
+  let tlRows=''; let capShown=false;
+  const hasCK=P.ckRate>0;
+  for(let i=0;i<showN;i++){
+    const d=r.dlogs[i];
+    // Show cap banner AFTER the deal that caused the cap (not before it)
+    if(capShown===false && d.isCapped && !d.capMoment){
+      // already capped from a previous deal — banner should already be shown
+    }
+    tlRows+=`<tr>
+      <td>#${d.d}</td>
+      <td>${fmt(d.gci)}</td>
+      ${hasCK?`<td style="color:var(--aqua)">${fmt(d.ck)}</td>`:''}
+      <td>${fmt(d.agShare)}</td>
+      <td style="color:var(--mg)">${d.split>0?fmt(d.split):(d.isCapped?'—':'—')}</td>
+      <td>${d.post>0?`<span style="color:var(--aqua);font-weight:600">$325</span><span style="font-size:9.5px;color:var(--muted);font-family:var(--font-d)"> ($285+$40)</span>`:'—'}</td>
+      <td style="color:${d.isCapped&&!d.capMoment?'var(--tl)':'var(--ink)'};font-weight:700">${fmt(d.net)}</td>
+    </tr>`;
+    // Show cap banner AFTER the cap-moment deal row
+    if(d.capMoment&&!capShown){
+      capShown=true;
+      const cols=hasCK?7:6;
+      tlRows+=`<tr class="tl-cap-row"><td colspan="${cols}">✓ REAL CAP REACHED · from here: $325/deal to REAL ($285 tx + $40 CBR)${hasCK?` · ${pct(P.ckRate)} C&K continues on every deal`:''}</td></tr>`;
+    }
+  }
+  if(r.dlogs.length>10){
+    const cols=hasCK?7:6;
+    tlRows+=`<tr style="background:var(--s1)"><td colspan="${cols}" style="color:var(--muted);font-style:italic;font-family:var(--font-d)">+ ${r.dlogs.length-10} more deals — all post-cap · $325/deal to REAL ($285 tx + $40 CBR)${hasCK?` + ${pct(P.ckRate)} to C&K`:''}</td></tr>`;
+  }
+  const tlHeaders=`<tr>
+    <th style="text-align:left">Deal</th>
+    <th>GCI</th>
+    ${hasCK?`<th>C&K Split</th>`:''}
+    <th>Your Share</th>
+    <th>REAL Split</th>
+    <th>Post-Cap ($285+$40)</th>
+    <th>You Keep</th>
+  </tr>`;
+
+  /* ── STATEMENT TEXT ── */
+  let stmtText='';
+  if(a.deals===0||a.gci===0){
+    stmtText=`At REAL there are <strong>zero monthly fees</strong> — you only pay when you close. The $750 annual fee is spread across your first 3 deals at <strong>$250 each</strong>. Zero production = zero fees.${P.ckRate>0?` The ${pct(P.ckRate)} C&K split on the <strong>${P.name}</strong> plan applies when you close deals.`:''}`;
+  } else if(r.capped){
+    stmtText=`With <strong>${a.deals} deals</strong> and <strong>${fmt(a.gci)}</strong> in GCI, you would have <em>capped the $${P.realCap.toLocaleString()} REAL cap</em>. For the rest of the year every deal to REAL cost just <em>$325 flat</em>.${P.ckRate>0?` The ${pct(P.ckRate)} Coxen & King split (${fmt(r.ckTotal)} total) continues on every deal as part of the <strong>${P.name}</strong> arrangement.`:''} Your total take-home: <strong>${fmt(r.net)}</strong> in commission + <strong>~${fmt(totalStockValue)}</strong> in total stock value = <strong>${fmt(realNetWithStock)}</strong> total — keeping <strong>${pct(realNetWithStock/a.gci)}</strong> of your GCI. That's <em>${diff>=0?'+':''}${fmt(diff)}</em> compared to your current deal.`;
+  } else {
+    const dealsToCapEst=a.gci>0?Math.ceil(capLeft/((a.gci/a.deals*(1-P.ckRate))*P.realSplit)):0;
+    stmtText=`With <strong>${a.deals} deals</strong> and <strong>${fmt(a.gci)}</strong> in GCI, you'd have paid <strong>${fmt(r.realSplit)}</strong> toward the <strong>$${P.realCap.toLocaleString()} REAL cap</strong>. About <em>${dealsToCapEst} more deal${dealsToCapEst!==1?'s':''}</em> at this level hits 100% — after that, just <em>$325 flat per deal</em> to REAL.${P.ckRate>0?` The ${pct(P.ckRate)} C&K split (${fmt(r.ckTotal)} this year) is in addition and continues regardless of cap status.`:''} Commission at REAL: <strong>${fmt(r.net)}</strong> + ~${fmt(totalStockValue)} total stock value = <strong>${fmt(realNetWithStock)}</strong> total — keeping <strong>${pct(realNetWithStock/a.gci)}</strong> of GCI. That's <em>${diff>=0?'+':''}${fmt(diff)}</em> vs where you are now.`;
+  }
+
+  /* ── BUILD HTML ── */
+  const html=`<div class="pres">
+
+    <div class="banner">
+      <div class="b-glow"></div><div class="b-glow2"></div>
+      <div class="b-inner">
+        <div class="b-left">
+          <div class="b-avatar" style="background:${color}25;border-color:${color}50;color:${color}">${aIni}</div>
+          <div>
+            <div class="b-name">${a.name}</div>
+            <div class="b-meta">${a.deals} deals &nbsp;·&nbsp; ${fmt(a.vol||0)} volume &nbsp;·&nbsp; ${fmt(a.gci)} GCI${customFlag?' &nbsp;·&nbsp; <span style="opacity:.45">custom entry</span>':''}</div>
+          </div>
+        </div>
+        <div class="b-badge ${P.badgeClass}">${P.name} &nbsp;·&nbsp; ${P.shortLabel}</div>
+      </div>
+    </div>
+
+    <div class="slbl">How this plan works — money flow</div>
+    ${flowDiagram}
+    <div class="plan-explainer ${planClass}">
+      <div class="pe-title">${P.name} Plan — ${P.label}</div>
+      <div class="pe-rows">${planRows}</div>
+    </div>
+
+    <div class="slbl">Where you are now → where you're going</div>
+    <div class="big-q">
+      <div class="bq now">
+        <div class="bq-lbl">Where you are now</div>
+        <div class="bq-broker">Current Brokerage · 2025</div>
+        <div class="bq-net-lbl">Agent net</div>
+        <div class="bq-net">${fmt(currNet)}</div>
+        <div class="bq-pct">${a.gci>0?pct(currNet/a.gci):'—'} kept &nbsp;·&nbsp; ${fmt(a.cs)} in fees</div>
+      </div>
+      <div class="bq-mid"><div class="bq-ln"></div><div class="bq-arr">→</div><div class="bq-ln"></div></div>
+      <div class="bq going">
+        <div class="bq-lbl">Where you're going · REAL</div>
+        <div class="bq-broker">${P.name} · ${P.label}</div>
+        <div class="bq-net-lbl">Commission + stock value</div>
+        <div class="bq-net">${fmt(realNetWithStock)}</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:5px;align-items:center">
+          <div style="font-size:11px;font-family:var(--font-m);color:var(--mg)">${fmt(r.net)} commission</div>
+          <div style="font-size:11px;color:var(--muted)">+</div>
+          <div style="font-size:11px;font-family:var(--font-m);color:var(--aqua)">~${fmt(totalStockValue)} total stock value</div>
+          <div style="font-size:11px;color:var(--muted)">·</div>
+          <div style="font-size:11px;font-family:var(--font-m);color:var(--aqua);font-weight:700">${a.gci>0?pct(realNetWithStock/a.gci):'—'} kept</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diff ${diff>0?'dif-p':diff<0?'dif-n':'dif-z'}">
+      <div class="diff-l">
+        <h2>${diff>0?'Total value advantage at REAL':diff<0?'Difference':'No change on this production'}</h2>
+        <p>${a.gci>0?`Commission + total stock value vs current net · ${P.name} plan`:'Enter production numbers above'}</p>
+      </div>
+      <div>
+        <div class="diff-num">${diff>=0?'+':''}${fmt(diff)}</div>
+        <div class="diff-sub">${a.gci>0?`${pct(Math.abs(diff)/a.gci)} of total GCI`:'—'}</div>
+      </div>
+    </div>
+
+    <div class="slbl">Every fee — fully broken down</div>
+    <div class="fee-wrap">
+      <div class="fee-cols ${feeColsClass}">${feeCards}</div>
+      ${combinedTotal}
+    </div>
+
+    <div class="cap-card">
+      <div class="cap-top">
+        <h3>REAL cap journey — ${fmt(P.realCap)} cap</h3>
+        <div class="cs-tag ${r.capped?'cs-cap':'cs-pre'}">${r.capped?'✓ WOULD HAVE CAPPED':'Pre-cap at year end'}</div>
+      </div>
+      <div class="cap-track"><div class="cap-fill ${P.cfClass}" style="width:${capPct.toFixed(1)}%"></div></div>
+      <div class="cap-marks"><span>$0</span><span>${fmt(P.realCap*.25)}</span><span>${fmt(P.realCap*.5)}</span><span>${fmt(P.realCap*.75)}</span><span>${fmt(P.realCap)} cap</span></div>
+      <div class="cap-stats">
+        <div class="cstat"><div class="cstat-lbl">Paid toward REAL cap</div><div class="cstat-val ${r.capped?'tl':''}">${fmt(r.realYTD)}</div></div>
+        <div class="cstat"><div class="cstat-lbl">Cap remaining</div><div class="cstat-val ${r.capped?'tl':'gold'}">${r.capped?'Capped ✓':fmt(capLeft)}</div></div>
+        <div class="cstat"><div class="cstat-lbl">Cap progress</div><div class="cstat-val">${capPct.toFixed(0)}%</div></div>
+        <div class="cstat"><div class="cstat-lbl">Post-cap cost/deal</div><div class="cstat-val tl">$325 flat${P.ckRate>0?` + ${pct(P.ckRate)} C&K`:''}</div></div>
+      </div>
+    </div>
+
+    ${r.dlogs.length>0?`<div class="tl-card">
+      <h3>Deal-by-deal breakdown at REAL</h3>
+      <div class="tl-sub">${P.ckRate>0?`${pct(P.ckRate)} goes to C&K first on every deal. REAL's 85/15 then applies to YOUR ${pct(1-P.ckRate)} only — not the full GCI. REAL cap = $${P.realCap.toLocaleString()} accumulated from your share.`:'REAL takes 15% of your full GCI on each deal until $'+P.realCap.toLocaleString()+' accumulated. After cap: $325 flat per deal.'}</div>
+      <table class="tl-table"><thead>${tlHeaders}</thead><tbody>${tlRows}</tbody></table>
+    </div>`:''}
+
+    <div class="tools-card">
+      <div class="tc-top">
+        <h3>Technology included — $0/month</h3>
+        <div class="tc-badge">NO MONTHLY FEES</div>
+      </div>
+      <div class="tools-grid">
+        <div class="tool"><div class="tool-name">reZEN</div><div class="tool-desc">Transaction management, compliance, commission tracking — full mobile-first app</div><div class="tool-val">Included free</div></div>
+        <div class="tool"><div class="tool-name">Real Signature</div><div class="tool-desc">In-house e-sign — replaces DocuSign and Dotloop entirely</div><div class="tool-val">Saves $20–$60/mo</div></div>
+        ${P.key==='team'
+          ?`<div class="tool" style="border-color:rgba(0,153,170,.3);background:rgba(0,153,170,.07)"><div class="tool-name" style="color:#7ee8f4">Lofty Core CRM</div><div class="tool-desc">AI-powered CRM + website — fully included as part of your 50/50 Team arrangement</div><div class="tool-val" style="color:rgba(253,230,138,.6)">Included · no extra cost</div></div>`
+          :P.key==='hyb'
+          ?`<div class="tool" style="border-color:rgba(0,153,170,.3);background:rgba(0,153,170,.07)"><div class="tool-name" style="color:#7ee8f4">Lofty Core CRM</div><div class="tool-desc">Pay $50/mo through REAL, or join the C&K leads program and it's included free</div><div class="tool-val" style="color:rgba(253,230,138,.6)">$50/mo · free w/ leads program</div></div>`
+          :`<div class="tool"><div class="tool-name">Lofty Core CRM</div><div class="tool-desc">AI-powered CRM + website — available through REAL at $50/mo (typically $500+/mo)</div><div class="tool-val">$50/mo · save $450+/mo</div></div>`
+        }
+        <div class="tool"><div class="tool-name">Leo AI Assistant</div><div class="tool-desc">24/7 AI support for transactions, commissions, and platform questions</div><div class="tool-val">Included free</div></div>
+        <div class="tool"><div class="tool-name">Real Design Center</div><div class="tool-desc">500+ MLS-integrated marketing templates — Canva built for real estate</div><div class="tool-val">Included free</div></div>
+        <div class="tool"><div class="tool-name">Real Academy</div><div class="tool-desc">240+ on-demand courses · 30+ live training sessions per week</div><div class="tool-val">Included free</div></div>
+      </div>
+    </div>
+
+    <!-- STOCK AWARDS — CALCULATED FROM THIS AGENT'S NUMBERS -->
+    ${(()=>{
+      // All stock variables already calculated at top of renderPresentation
+      // sppPreContrib, sppPostContrib, sppPreBonus, sppPostBonus, sppTotalInvested,
+      // sppTotalValue, cappingShares, cappingAwardValue, eliteEligible, eliteAwardValue,
+      // eliteAcademyValue, totalConservative, totalWithElite, attractionPerRecruit
+      // are all in scope from the outer function.
+
+      // ── AGENT ATTRACTION ──
+      // 75 RSUs per agent you recruit who closes first deal — illustrative at 1 recruit
+      const attractionPerRecruit=75*sharePrice;
+
+      // ── REVENUE SHARE (illustrative — 1 Tier 1 agent at similar production) ──
+      // Formula: sponsored agent's GCI × REAL's 15% split × your 5% tier share
+      // Capped at $4,000/yr per agent (max REAL earns on a $12k cap agent is $12k, 5% of that = $600 wait--
+      // Actually: rev share = 5% of SPONSORED agent's GCI (not REAL's cut)
+      // Per REAL docs: "5% × GCI = Max Potential Rev Share" — it's 5% of the agent's gross GCI
+      // BUT only while agent is pre-cap and paying their split
+      // Real shares up to 60% of its revenue, so true payout = min(5% × GCI, $4,000)
+      const rsIllustrative=Math.min(a.gci*0.05, 4000);
+
+      // ── TOTAL POTENTIAL ──
+      const totalConservative=sppTotalValue+cappingAwardValue+(eliteEligible?eliteAwardValue:0);
+      const totalWithElite=totalConservative+(eliteEligible?eliteAcademyValue:0);
+
+      return`
+    <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:20px">
+
+      <!-- HEADER -->
+      <div style="background:var(--ink);padding:20px 24px;position:relative;overflow:hidden">
+        <div style="position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(0,153,170,.15),transparent 70%);top:-70px;right:-40px;pointer-events:none"></div>
+        <div style="position:relative;z-index:1;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px">
+          <div>
+            <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px">Stock & Equity Programs · NASDAQ: REAX</div>
+            <div style="font-size:20px;font-weight:800;color:#fff;margin-bottom:3px;letter-spacing:-.01em">Your estimated stock awards</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.45);font-weight:300">Calculated from your 2025 actual numbers · if you opted in to all programs</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:9px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Total est. stock value</div>
+            <div style="font-family:var(--font-m);font-size:32px;font-weight:700;color:var(--aqua);line-height:1">${fmt(totalConservative)}</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:3px">Conservative est. · REAX ~$2.40/share</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CALCULATED AWARDS GRID -->
+      <div style="padding:20px 24px">
+
+        <!-- SPP -->
+        <div style="background:var(--s1);border-radius:var(--r);border:1px solid var(--border);padding:16px 18px;margin-bottom:12px">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px">Stock Purchase Plan (SPP)</div>
+              <div style="font-size:11px;color:var(--muted);font-weight:300">Opt in to invest 5% pre-cap / 10% post-cap · Real matches with bonus shares</div>
+            </div>
+            <div style="background:var(--aqua-bg);color:var(--aqua);border:1px solid rgba(0,153,170,.35);padding:4px 12px;border-radius:100px;font-size:10px;font-weight:700;font-family:var(--font-m)">OPTIONAL</div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:10px">
+            <div style="background:var(--white);border-radius:8px;padding:10px 13px;border:1px solid var(--border)">
+              <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px">You invest (pre-cap)</div>
+              <div style="font-size:15px;font-weight:700;font-family:var(--font-m);color:var(--ink)">${fmt(sppPreContrib)}</div>
+              <div style="font-size:9.5px;color:var(--muted2);margin-top:2px">5% of pre-cap net</div>
+            </div>
+            <div style="background:var(--aqua-bg);border-radius:8px;padding:10px 13px;border:1px solid rgba(0,122,106,.2)">
+              <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--aqua);margin-bottom:3px">REAL bonus (pre-cap)</div>
+              <div style="font-size:15px;font-weight:700;font-family:var(--font-m);color:var(--aqua)">${fmt(sppPreBonus)}</div>
+              <div style="font-size:9.5px;color:var(--muted2);margin-top:2px">+10% free RSUs</div>
+            </div>
+            <div style="background:var(--white);border-radius:8px;padding:10px 13px;border:1px solid var(--border)">
+              <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px">You invest (post-cap)</div>
+              <div style="font-size:15px;font-weight:700;font-family:var(--font-m);color:var(--ink)">${fmt(sppPostContrib)}</div>
+              <div style="font-size:9.5px;color:var(--muted2);margin-top:2px">10% of post-cap net</div>
+            </div>
+            <div style="background:var(--aqua-bg);border-radius:8px;padding:10px 13px;border:1px solid rgba(0,122,106,.2)">
+              <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--aqua);margin-bottom:3px">REAL bonus (post-cap)</div>
+              <div style="font-size:15px;font-weight:700;font-family:var(--font-m);color:var(--aqua)">${fmt(sppPostBonus)}</div>
+              <div style="font-size:9.5px;color:var(--muted2);margin-top:2px">+15% free RSUs</div>
+            </div>
+          </div>
+          <div style="background:var(--ink);border-radius:8px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <div style="font-size:12px;color:rgba(255,255,255,.55)">Total SPP stock value <span style="color:rgba(255,255,255,.3);font-size:10px">(your investment + REAL's bonus)</span></div>
+            <div style="font-family:var(--font-m);font-size:18px;font-weight:700;color:var(--aqua)">${fmt(sppTotalValue)}</div>
+          </div>
+          <div style="font-size:10px;color:var(--muted);margin-top:8px;font-weight:300">1-year vesting. Max pre-cap contribution: ${fmt(maxPreCap)} · Max post-cap: ${fmt(maxPostCap)}. Shares held in your Shareworks (Morgan Stanley) account. <strong style="color:var(--ink)">Note: the ${fmt(sppTotalInvested)} you invest comes out of your commission checks — it's your money going into stock, not a fee.</strong></div>
+        </div>
+
+        <!-- CAPPING AWARD -->
+        <div style="background:var(--s1);border-radius:var(--r);border:1px solid var(--border);padding:16px 18px;margin-bottom:12px">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px">Capping Stock Award</div>
+              <div style="font-size:11px;color:var(--muted);font-weight:300">Free shares granted automatically when you hit your annual REAL cap</div>
+            </div>
+            <div style="background:var(--aqua-bg);color:var(--aqua);border:1px solid var(--gold);padding:4px 12px;border-radius:100px;font-size:10px;font-weight:700;font-family:var(--font-m)">FREE · AUTOMATIC</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+            <div style="background:var(--white);border-radius:8px;padding:12px 14px;border:1px solid var(--border)">
+              <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px">Capped?</div>
+              <div style="font-size:15px;font-weight:700;font-family:var(--font-m);color:${r.capped?'var(--tl)':'var(--gold)'}">${r.capped?'Yes ✓':'Not yet'}</div>
+              <div style="font-size:9.5px;color:var(--muted2);margin-top:2px">${r.capped?'Would have capped in 2025':'Need more deals to cap'}</div>
+            </div>
+            <div style="background:${r.capped?'var(--tl-bg)':'var(--s1)'};border-radius:8px;padding:12px 14px;border:1px solid ${r.capped?'rgba(0,122,106,.25)':'var(--border)'}">
+              <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px">Shares awarded</div>
+              <div style="font-size:15px;font-weight:700;font-family:var(--font-m);color:${r.capped?'var(--tl)':'var(--muted2)'}">${cappingShares>0?cappingShares+' shares':'0 shares'}</div>
+              <div style="font-size:9.5px;color:var(--muted2);margin-top:2px">${P.realCap===12000?'150':P.realCap===6000?'75':'50'} shares · ${P.realCap===12000?'$12k':P.realCap===6000?'$6k':'$4k'} cap</div>
+            </div>
+            <div style="background:${r.capped?'var(--gold-bg)':'var(--s1)'};border-radius:8px;padding:12px 14px;border:1px solid ${r.capped?'rgba(0,153,170,.2)':'var(--border)'}">
+              <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px">Est. award value</div>
+              <div style="font-size:15px;font-weight:700;font-family:var(--font-m);color:${r.capped?'var(--gold)':'var(--muted2)'}">~${fmt(cappingAwardValue)}</div>
+              <div style="font-size:9.5px;color:var(--muted2);margin-top:2px">@ ~$2.40/share (current market)</div>
+            </div>
+          </div>
+          <div style="font-size:10px;color:var(--muted);margin-top:8px;font-weight:300">3-year vesting period. Share award by cap level: <strong style="color:var(--ink)">$12k cap = 150 shares · $6k cap = 75 shares · $4k cap = 50 shares</strong>. Granted every anniversary year you cap.</div>
+        </div>
+
+        <!-- ELITE AGENT -->
+        <div style="background:var(--s1);border-radius:var(--r);border:1px solid var(--border);padding:16px 18px;margin-bottom:12px">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px">Elite Agent Award</div>
+              <div style="font-size:11px;color:var(--muted);font-weight:300">$16,000 in stock + tx fee drops to $129/deal + optional $8,000 more for teaching at Real Academy</div>
+            </div>
+            <div style="background:rgba(27,54,93,.07);color:var(--navy);border:1px solid var(--pu);padding:4px 12px;border-radius:100px;font-size:10px;font-weight:700;font-family:var(--font-m)">${eliteEligible?'WITHIN REACH':'STRETCH GOAL'}</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+            <div style="background:var(--white);border-radius:8px;padding:12px 14px;border:1px solid ${eliteViaTxFees?'rgba(27,54,93,.3)':'var(--border)'}">
+              <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:4px">Path A — post-cap tx fees</div>
+              <div style="font-size:13px;font-weight:700;color:${eliteViaTxFees?'var(--pu)':'var(--ink)'};margin-bottom:3px">${eliteViaTxFees?'✓ Achieved':'Cap + $6,000 in post-cap fees'}</div>
+              <div style="background:var(--s1);border-radius:5px;height:6px;overflow:hidden;margin-top:6px"><div style="height:100%;width:${Math.min(100,(r.realPost/6000*100)).toFixed(0)}%;background:var(--pu);border-radius:5px"></div></div>
+              <div style="font-size:9.5px;color:var(--muted);margin-top:4px">${fmt(r.realPost)} of $6,000 · ${Math.min(100,Math.round(r.realPost/6000*100))}% there</div>
+            </div>
+            <div style="background:var(--white);border-radius:8px;padding:12px 14px;border:1px solid ${eliteViaGCI?'rgba(27,54,93,.3)':'var(--border)'}">
+              <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:4px">Path B — GCI + $1M deals</div>
+              <div style="font-size:13px;font-weight:700;color:${eliteViaGCI?'var(--pu)':'var(--ink)'};margin-bottom:3px">${eliteViaGCI?'✓ GCI threshold met':'$500k GCI + 10 deals over $1M'}</div>
+              <div style="background:var(--s1);border-radius:5px;height:6px;overflow:hidden;margin-top:6px"><div style="height:100%;width:${Math.min(100,(a.gci/500000*100)).toFixed(0)}%;background:var(--pu);border-radius:5px"></div></div>
+              <div style="font-size:9.5px;color:var(--muted);margin-top:4px">${fmt(a.gci)} of $500,000 GCI · ${Math.min(100,Math.round(a.gci/500000*100))}% there</div>
+            </div>
+          </div>
+          <div style="background:${eliteEligible?'rgba(27,54,93,.08)':'var(--white)'};border-radius:8px;padding:12px 16px;border:1px solid ${eliteEligible?'rgba(27,54,93,.3)':'var(--border)'};display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <div>
+              <div style="font-size:12px;font-weight:700;color:var(--ink)">Elite award + Academy bonus</div>
+              <div style="font-size:10px;color:var(--muted);margin-top:2px">$16,000 RSUs + $8,000 RSUs (if teaching at Real Academy) · both 3-year vest</div>
+            </div>
+            <div style="font-family:var(--font-m);font-size:18px;font-weight:700;color:var(--navy)">${fmt(eliteAwardValue+eliteAcademyValue)}</div>
+          </div>
+        </div>
+
+        <!-- REVENUE SHARE ILLUSTRATION -->
+        <div style="background:var(--s1);border-radius:var(--r);border:1px solid var(--border);padding:16px 18px;margin-bottom:12px">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px">Revenue Share Program</div>
+              <div style="font-size:11px;color:var(--muted);font-weight:300">Earn passive income from agents you bring to REAL — paid from REAL's split, not yours</div>
+            </div>
+            <div style="background:var(--mg-bg);color:var(--mg);border:1px solid var(--mg2);padding:4px 12px;border-radius:100px;font-size:10px;font-weight:700;font-family:var(--font-m)">5 TIERS</div>
+          </div>
+          ${(()=>{
+            // Max rev share scales with the sponsored agent's cap level
+            // $12k cap agent = $4,000/yr max · $6k cap = $2,000/yr max · $4k cap = $1,333/yr max
+            const rsMax=P.realCap===12000?4000:P.realCap===6000?2000:1333;
+            const tiers=[
+              {t:'Tier 1',p:5,max:rsMax},
+              {t:'Tier 2',p:4,max:Math.round(rsMax*0.8)},
+              {t:'Tier 3',p:3,max:Math.round(rsMax*0.6)},
+              {t:'Tier 4',p:2,max:Math.round(rsMax*0.4)},
+              {t:'Tier 5',p:1,max:Math.round(rsMax*0.2)},
+            ];
+            const t1est=Math.min(a.gci*0.05,rsMax);
+            return`
+          <div style="background:var(--mg-bg);border:1px solid rgba(232,24,90,.15);border-radius:8px;padding:8px 12px;margin-bottom:10px;font-size:10px;color:var(--muted)">
+            Max rev share based on <strong style="color:var(--ink)">${P.name} plan (${fmt(P.realCap)} cap)</strong> — maximums scale with the sponsored agent's cap level · <strong style="color:var(--mg)">$12k = $4,000/yr · $6k = $2,000/yr · $4k = $1,333/yr</strong>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px">
+            ${tiers.map(tier=>`
+            <div style="background:var(--white);border-radius:7px;padding:9px 8px;border:1px solid var(--border);text-align:center">
+              <div style="font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">${tier.t}</div>
+              <div style="font-size:18px;font-weight:700;font-family:var(--font-m);color:var(--ink)">${tier.p}%</div>
+              <div style="font-size:9px;color:var(--aqua);font-family:var(--font-m);margin-top:2px">up to ${fmt(tier.max)}/yr</div>
+            </div>`).join('')}
+          </div>
+          <div style="background:var(--white);border-radius:8px;padding:12px 14px;border:1px solid var(--border)">
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:6px">Example — if you sponsor 1 agent on the same ${P.name} plan</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+              <div><div style="font-size:9.5px;color:var(--muted);margin-bottom:2px">Their GCI</div><div style="font-size:13px;font-weight:600;font-family:var(--font-m);color:var(--ink)">${fmt(a.gci)}</div></div>
+              <div><div style="font-size:9.5px;color:var(--muted);margin-bottom:2px">Your Tier 1 share (5%)</div><div style="font-size:13px;font-weight:600;font-family:var(--font-m);color:var(--aqua)">${fmt(t1est)}</div></div>
+              <div><div style="font-size:9.5px;color:var(--muted);margin-bottom:2px">Max Tier 1 / yr</div><div style="font-size:13px;font-weight:600;font-family:var(--font-m);color:var(--aqua)">${fmt(rsMax)}</div></div>
+            </div>
+          </div>
+          <div style="font-size:10px;color:var(--muted);margin-top:8px;font-weight:300">Revenue share is paid from REAL's 15% split — not your commission. Max per sponsored agent: <strong style="color:var(--ink)">$4,000/yr ($12k cap) · $2,000/yr ($6k cap) · $1,333/yr ($4k cap)</strong>. You earn it only while that agent is still paying their split to REAL.</div>`;
+          })()}
+        </div>
+
+        <!-- AGENT ATTRACTION STOCK -->
+        <div style="background:var(--s1);border-radius:var(--r);border:1px solid var(--border);padding:16px 18px;margin-bottom:12px">
+          <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px">Agent Attraction Stock Award</div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:10px;font-weight:300">75 RSUs of REAX stock per agent you recruit who closes their first qualifying deal (min $2,000 GCI)</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <div style="background:var(--white);border-radius:8px;padding:10px 13px;border:1px solid var(--border)">
+              <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:3px">Per recruit</div>
+              <div style="font-size:15px;font-weight:700;font-family:var(--font-m);color:var(--ink)">75 RSUs</div>
+              <div style="font-size:9.5px;color:var(--muted2);margin-top:2px">~${fmt(attractionPerRecruit)} est. value</div>
+            </div>
+            <div style="background:var(--white);border-radius:8px;padding:10px 13px;border:1px solid var(--border)">
+              <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:3px">3 recruits/year</div>
+              <div style="font-size:15px;font-weight:700;font-family:var(--font-m);color:var(--aqua)">225 RSUs</div>
+              <div style="font-size:9.5px;color:var(--muted2);margin-top:2px">~${fmt(attractionPerRecruit*3)} est. value</div>
+            </div>
+            <div style="background:var(--white);border-radius:8px;padding:10px 13px;border:1px solid var(--border)">
+              <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:3px">Vesting</div>
+              <div style="font-size:15px;font-weight:700;font-family:var(--font-m);color:var(--ink)">3 years</div>
+              <div style="font-size:9.5px;color:var(--muted2);margin-top:2px">Morgan Stanley Shareworks</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TOTAL SUMMARY -->
+        <div style="background:var(--ink);border-radius:var(--rl);padding:18px 22px;position:relative;overflow:hidden">
+          <div style="position:absolute;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(0,153,170,.15),transparent 70%);top:-50px;right:-30px;pointer-events:none"></div>
+          <div style="position:relative;z-index:1;margin-bottom:14px">
+            <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px">Total estimated stock value · if you participated in all programs</div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;position:relative;z-index:1;margin-bottom:14px">
+            <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:12px 14px;border:1px solid rgba(255,255,255,.08)">
+              <div style="font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:4px">SPP value</div>
+              <div style="font-family:var(--font-m);font-size:16px;font-weight:700;color:var(--aqua)">${fmt(sppTotalValue)}</div>
+              <div style="font-size:9px;color:rgba(255,255,255,.3);margin-top:2px">your $ + REAL bonus</div>
+            </div>
+            <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:12px 14px;border:1px solid rgba(255,255,255,.08)">
+              <div style="font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:4px">Capping award</div>
+              <div style="font-family:var(--font-m);font-size:16px;font-weight:700;color:${r.capped?'var(--gold)':'rgba(255,255,255,.3)'}">${r.capped?fmt(cappingAwardValue):'Not capped'}</div>
+              <div style="font-size:9px;color:rgba(255,255,255,.3);margin-top:2px">${P.realCap===12000?'150':P.realCap===6000?'75':'50'} shares free</div>
+            </div>
+            <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:12px 14px;border:1px solid rgba(255,255,255,.08)">
+              <div style="font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:4px">Elite award</div>
+              <div style="font-family:var(--font-m);font-size:16px;font-weight:700;color:${eliteEligible?'var(--pu)':'rgba(255,255,255,.3)'}">${eliteEligible?fmt(eliteAwardValue):'Not yet'}</div>
+              <div style="font-size:9px;color:rgba(255,255,255,.3);margin-top:2px">$16k RSUs if eligible</div>
+            </div>
+            <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:12px 14px;border:1px solid rgba(255,255,255,.08)">
+              <div style="font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:4px">Academy bonus</div>
+              <div style="font-family:var(--font-m);font-size:16px;font-weight:700;color:${eliteEligible?'var(--pu)':'rgba(255,255,255,.3)'}">${eliteEligible?fmt(eliteAcademyValue):'Not yet'}</div>
+              <div style="font-size:9px;color:rgba(255,255,255,.3);margin-top:2px">$8k extra if teaching</div>
+            </div>
+          </div>
+          <div style="background:rgba(0,153,170,.1);border:1px solid rgba(0,153,170,.3);border-radius:var(--r);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;position:relative;z-index:1">
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:2px">${eliteEligible?'Total est. stock value (w/ Elite + Academy)':'Total est. stock value'}</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:300">Commission + free awards · REAX ~$2.40/share est. · all subject to vesting</div>
+            </div>
+            <div style="font-family:var(--font-m);font-size:28px;font-weight:700;color:var(--aqua)">${fmt(eliteEligible?totalWithElite:totalConservative)}</div>
+          </div>
+          <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:10px;position:relative;z-index:1;line-height:1.6;font-weight:300">Stock values are estimates based on REAX ~$2.40/share. Share price fluctuates — check NASDAQ: REAX for current price. RSU vesting periods: SPP = 1 year, all other awards = 3 years. You must remain in good standing with REAL through vesting. SPP contributions come out of your commission checks before you receive them — they are your money invested into stock, not an additional expense.</div>
+        </div>
+
+      </div>
+    </div>`;
+    })()}
+
+    ${P.ckRate>0?`
+    <!-- C&K LEADS PROGRAM — HYBRID & TEAM ONLY -->
+    <div style="background:var(--ink);border-radius:var(--rx);padding:26px 30px;margin-bottom:20px;position:relative;overflow:hidden">
+      <div style="position:absolute;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(0,153,170,.2),transparent 70%);top:-80px;right:-40px;pointer-events:none"></div>
+      <div style="position:absolute;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(0,122,106,.15),transparent 70%);bottom:-50px;left:30px;pointer-events:none"></div>
+      <div style="position:relative;z-index:1">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:20px">
+          <div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+              <div style="background:var(--aqua-bg);border:1px solid var(--gold);padding:4px 12px;border-radius:100px;font-size:10px;font-weight:700;font-family:var(--font-m);color:var(--aqua)">C&K EXCLUSIVE</div>
+              <div style="background:${P.key==='hyb'?'rgba(0,122,106,.2)':'rgba(232,24,90,.2)'};border:1px solid ${P.key==='hyb'?'var(--tl2)':'var(--mg2)'};padding:4px 12px;border-radius:100px;font-size:10px;font-weight:700;font-family:var(--font-m);color:${P.key==='hyb'?'#5eead4':'#fda4c0'}">${P.key==='hyb'?'OPTIONAL':'INCLUDED'}</div>
+            </div>
+            <div style="font-size:22px;font-weight:800;color:#fff;letter-spacing:-.01em;margin-bottom:4px">Coxen &amp; King<br>Leads Program</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.5);font-weight:300;max-width:420px;line-height:1.6">${P.key==='hyb'?'An optional add-on for Hybrid members — you can choose to join the leads program and get access to company-generated leads with a clear structure, split, and accountability built in.':'Included with your Team Member arrangement — access to company-generated leads with a clear structure, split, and accountability built in from day one.'}</div>
+          </div>
+          <div style="background:rgba(0,153,170,.1);border:1px solid rgba(0,153,170,.3);border-radius:var(--rl);padding:16px 20px;text-align:center;min-width:140px">
+            <div style="font-size:10px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:6px">Lead Split</div>
+            <div style="font-family:var(--font-m);font-size:34px;font-weight:700;color:var(--aqua);line-height:1">50/50</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:4px">on all C&K leads</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">
+          <div style="background:rgba(255,255,255,.06);border-radius:var(--r);padding:14px 16px;border:1px solid rgba(255,255,255,.08)">
+            <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:6px">Lead source</div>
+            <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:3px">Company-generated</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.35);font-weight:300;line-height:1.5">Leads sourced and provided by Coxen &amp; King — you don't pay for them upfront</div>
+          </div>
+          <div style="background:rgba(255,255,255,.06);border-radius:var(--r);padding:14px 16px;border:1px solid rgba(255,255,255,.08)">
+            <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:6px">Split on close</div>
+            <div style="font-size:13px;font-weight:600;color:var(--aqua);margin-bottom:3px">50/50 on commission</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.35);font-weight:300;line-height:1.5">When you close a C&K lead, the commission splits 50/50 — same as your team arrangement</div>
+          </div>
+          <div style="background:rgba(255,255,255,.06);border-radius:var(--r);padding:14px 16px;border:1px solid rgba(255,255,255,.08)">
+            <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:6px">CRM required</div>
+            <div style="font-size:13px;font-weight:600;color:#7ee8f4;margin-bottom:3px">Lofty CRM (C&K provided)</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.35);font-weight:300;line-height:1.5">All leads worked and tracked in Lofty — provided by Coxen & King, not an extra cost to you</div>
+          </div>
+        </div>
+
+        <div style="background:rgba(255,255,255,.05);border-radius:var(--r);border:1px solid rgba(255,255,255,.1);padding:16px 18px;margin-bottom:14px">
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Accountability &amp; process structure</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div style="display:flex;align-items:flex-start;gap:8px">
+              <div style="width:20px;height:20px;border-radius:50%;background:rgba(0,122,106,.3);border:1px solid rgba(0,153,170,.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-size:11px;color:#7ee8f4;font-weight:700">✓</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.55;font-weight:300"><strong style="color:#fff;font-weight:600">Defined follow-up process</strong><br>Clear timelines and contact cadence for every lead assigned to you</div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px">
+              <div style="width:20px;height:20px;border-radius:50%;background:rgba(0,122,106,.3);border:1px solid rgba(0,153,170,.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-size:11px;color:#7ee8f4;font-weight:700">✓</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.55;font-weight:300"><strong style="color:#fff;font-weight:600">CRM tracking required</strong><br>All activity logged in Lofty — full visibility for both you and the team</div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px">
+              <div style="width:20px;height:20px;border-radius:50%;background:rgba(0,122,106,.3);border:1px solid rgba(0,153,170,.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-size:11px;color:#7ee8f4;font-weight:700">✓</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.55;font-weight:300"><strong style="color:#fff;font-weight:600">Regular performance check-ins</strong><br>Ongoing support and review to make sure leads are converting</div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px">
+              <div style="width:20px;height:20px;border-radius:50%;background:rgba(0,122,106,.3);border:1px solid rgba(0,153,170,.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-size:11px;color:#7ee8f4;font-weight:700">✓</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.55;font-weight:300"><strong style="color:#fff;font-weight:600">Leads can be reassigned</strong><br>Leads not actively worked within the defined window return to the pool</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:rgba(0,153,170,.08);border:1px solid rgba(0,153,170,.2);border-radius:var(--r);padding:12px 16px">
+          <div style="font-size:12px;color:rgba(255,255,255,.65);line-height:1.7;font-weight:300">
+            <strong style="color:#fff;font-weight:700">${P.key==='hyb'?'This is optional — not a requirement.':'This is included with your Team Member plan.'}</strong> ${P.key==='hyb'?'If you choose to join, the leads program gives you a pipeline you didn\'t have to build yourself. In return, C&K takes 50% on those deals and expects you to work them properly inside the system.':'The leads program gives you a pipeline you didn\'t have to build yourself. C&K takes 50% on those deals and expects you to work them properly inside the system.'} Your own personal deals and sphere are always yours and always follow the standard ${P.key==='hyb'?'5%':'50/50'} C&K split structure.
+          </div>
+        </div>
+      </div>
+    </div>`:''}
+
+    <div class="stmt">
+      <div class="stmt-lbl">Your numbers · prepared summary · ${P.name} plan</div>
+      <div class="stmt-grid">
+        <div class="sg"><div class="sg-lbl">REAL commission net</div><div class="sg-val tl">${fmt(r.net)}</div></div>
+        <div class="sg"><div class="sg-lbl">Total stock value (~est.)</div><div class="sg-val gold">+${fmt(totalStockValue)}</div></div>
+        <div class="sg"><div class="sg-lbl">Total value at REAL</div><div class="sg-val tl">${fmt(realNetWithStock)}</div></div>
+        <div class="sg"><div class="sg-lbl">${diff>=0?'Total advantage':'Difference'}</div><div class="sg-val ${diff>=0?'gn':'rd'}">${diff>=0?'+':''}${fmt(diff)}</div></div>
+        <div class="sg"><div class="sg-lbl">Post-cap cost/deal</div><div class="sg-val">$325 flat</div></div>
+        <div class="sg"><div class="sg-lbl">Cap status (REAL)</div><div class="sg-val ${r.capped?'tl':'gold'}">${r.capped?'Would cap ✓':'Pre-cap'}</div></div>
+      </div>
+      <div class="stmt-text">${stmtText}</div>
+    </div>
+
+    <div class="cta">
+      <div>
+        <h3>Let's make it happen, ${firstName}.</h3>
+        <p>Same production. Same deals. Commission + stock — let's talk about what works best for you.</p>
+      </div>
+      <div class="cta-stats">
+        <div class="cta-s"><div class="cta-s-val">${fmt(realNetWithStock)}</div><div class="cta-s-lbl">Commission + stock</div></div>
+        <div class="cta-s"><div class="cta-s-val">${diff>=0?'+':''}${fmt(diff)}</div><div class="cta-s-lbl">${diff>=0?'Total advantage':'Difference'}</div></div>
+      </div>
+    </div>
+
+  </div>`;
+
+  document.getElementById('pres-area').innerHTML=html;
+  document.getElementById('main-area').scrollTop=0;
+
+  // Show & update PDF bar
+  const P2=PLANS[activePlan];
+  document.getElementById('pdf-bar').style.display='flex';
+  document.getElementById('pdf-bar-name').textContent=a.name;
+  document.getElementById('pdf-bar-plan').textContent=P2.name+' · '+P2.shortLabel;
+}
+
+/* ═══════════════════════ PDF EXPORT ═══════════════════════ */
+function exportPDF(){
+  const presContent=document.getElementById('pres-area').innerHTML;
+  if(!presContent||presContent.trim()===''){
+    alert('Please select an agent first.');
+    return;
+  }
+
+  // Stamp date
+  document.getElementById('print-header-date').textContent=
+    'Prepared '+new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+
+  // Copy presentation into print container
+  document.getElementById('print-pres').innerHTML=presContent;
+
+  // Force html & body to be scrollable for print engine
+  const htmlEl=document.documentElement;
+  const bodyEl=document.body;
+  const prevHtmlH=htmlEl.style.height;
+  const prevHtmlO=htmlEl.style.overflow;
+  const prevBodyH=bodyEl.style.height;
+  const prevBodyO=bodyEl.style.overflow;
+  htmlEl.style.height='auto';
+  htmlEl.style.overflow='visible';
+  bodyEl.style.height='auto';
+  bodyEl.style.overflow='visible';
+
+  // Kill animations so print captures full state
+  const animKill=document.createElement('style');
+  animKill.id='_pdf_anim_kill';
+  animKill.textContent='*{animation-duration:0s!important;animation-delay:0s!important;transition-duration:0s!important}';
+  document.head.appendChild(animKill);
+
+  // Give browser a frame to re-layout, then print
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      window.print();
+      // Restore after dialog
+      htmlEl.style.height=prevHtmlH;
+      htmlEl.style.overflow=prevHtmlO;
+      bodyEl.style.height=prevBodyH;
+      bodyEl.style.overflow=prevBodyO;
+      document.getElementById('_pdf_anim_kill')?.remove();
+      document.getElementById('print-pres').innerHTML='';
+    });
+  });
+}
+
+buildSidebar();
+</script>
+</body>
+</html>
