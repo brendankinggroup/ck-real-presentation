@@ -918,7 +918,7 @@ function renderPresentation(a, customFlag, colorIdx){
   });
   const sppTotalInvested=sppPreContrib+sppPostContrib;
   const sppBonusOnly=sppPreBonus+sppPostBonus; // only the FREE bonus shares count as added value
-  const cappingShares=r.capped?(P.realCap===12000?150:P.realCap===6000?75:50):0;
+  const cappingShares=r.capped?150:0; // REAL awards 150 shares at any cap level
   const cappingAwardValue=cappingShares*sharePrice;
   const sppTotalValue=sppTotalInvested+sppPreBonus+sppPostBonus;
   const totalPostCapFees=r.realPost;
@@ -931,12 +931,17 @@ function renderPresentation(a, customFlag, colorIdx){
   const totalWithElite=totalConservative+(eliteEligible?eliteAcademyValue:0);
   const attractionPerRecruit=75*sharePrice;
 
-  // Stock value added to REAL net for comparison:
-  // We use the FREE portions only (bonuses + awards) — not the SPP contributions the agent makes
-  // since those are their own money redirected, not new income
+  // ── CLEAR SEPARATION: commission cash · your stock investment · free stock ──
+  // stockFreeValue = ONLY free stock (SPP bonuses + capping award + elite awards)
+  // This is new value created — NOT the agent's own money redirected
   const stockFreeValue=sppBonusOnly+cappingAwardValue+(eliteEligible?eliteAwardValue+eliteAcademyValue:0);
-  const totalStockValue=eliteEligible?totalWithElite:totalConservative; // full SPP + all free awards
-  const realNetWithStock=r.net+totalStockValue;
+  // totalStockHoldings = everything in the agent's stock account (their investment + all free awards)
+  const totalStockHoldings=eliteEligible?totalWithElite:totalConservative;
+  // commissionCash = what the agent actually takes home in cash if they participate in SPP
+  const commissionCash=r.net-sppTotalInvested;
+  // realNetWithStock = commission + free stock ONLY (no double-counting the agent's own SPP money)
+  // Agent's SPP investment just moves money from cash → stock — it doesn't create new value
+  const realNetWithStock=r.net+stockFreeValue;
   const diff=realNetWithStock-currNet;
 
   /* ── MONEY FLOW DIAGRAM ── */
@@ -1123,22 +1128,25 @@ function renderPresentation(a, customFlag, colorIdx){
       <div class="bq going">
         <div class="bq-lbl">Where you're going · REAL</div>
         <div class="bq-broker">${P.name} · ${P.label}</div>
-        <div class="bq-net-lbl">Commission + stock value</div>
+        <div class="bq-net-lbl">Commission + free stock earned</div>
         <div class="bq-net">${fmt(realNetWithStock)}</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:5px;align-items:center">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:5px;align-items:center">
           <div style="font-size:11px;font-family:var(--font-m);color:var(--mg)">${fmt(r.net)} commission</div>
           <div style="font-size:11px;color:var(--muted)">+</div>
-          <div style="font-size:11px;font-family:var(--font-m);color:var(--aqua)">~${fmt(totalStockValue)} total stock value</div>
+          <div style="font-size:11px;font-family:var(--font-m);color:var(--aqua)">~${fmt(stockFreeValue)} free stock</div>
           <div style="font-size:11px;color:var(--muted)">·</div>
           <div style="font-size:11px;font-family:var(--font-m);color:var(--aqua);font-weight:700">${a.gci>0?pct(realNetWithStock/a.gci):'—'} kept</div>
         </div>
+        ${sppTotalInvested>0?`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;align-items:center">
+          <div style="font-size:10px;font-family:var(--font-m);color:var(--muted2)">If you opt into SPP: ${fmt(commissionCash)} cash + ${fmt(sppTotalInvested)} invested in stock + ${fmt(sppBonusOnly)} SPP bonus = ${fmt(commissionCash+totalStockHoldings)} total value</div>
+        </div>`:''}
       </div>
     </div>
 
     <div class="diff ${diff>0?'dif-p':diff<0?'dif-n':'dif-z'}">
       <div class="diff-l">
         <h2>${diff>0?'Total value advantage at REAL':diff<0?'Difference':'No change on this production'}</h2>
-        <p>${a.gci>0?`Commission + total stock value vs current net · ${P.name} plan`:'Enter production numbers above'}</p>
+        <p>${a.gci>0?`Commission + free stock earned vs current net · ${P.name} plan`:'Enter production numbers above'}</p>
       </div>
       <div>
         <div class="diff-num">${diff>=0?'+':''}${fmt(diff)}</div>
@@ -1412,7 +1420,7 @@ function renderPresentation(a, customFlag, colorIdx){
         <div style="background:var(--ink);border-radius:var(--rl);padding:18px 22px;position:relative;overflow:hidden">
           <div style="position:absolute;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(0,153,170,.15),transparent 70%);top:-50px;right:-30px;pointer-events:none"></div>
           <div style="position:relative;z-index:1;margin-bottom:14px">
-            <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px">Total estimated stock value · if you participated in all programs</div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px">Total stock holdings · your investment + free awards</div>
           </div>
           <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;position:relative;z-index:1;margin-bottom:14px">
             <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:12px 14px;border:1px solid rgba(255,255,255,.08)">
@@ -1423,7 +1431,7 @@ function renderPresentation(a, customFlag, colorIdx){
             <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:12px 14px;border:1px solid rgba(255,255,255,.08)">
               <div style="font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:4px">Capping award</div>
               <div style="font-family:var(--font-m);font-size:16px;font-weight:700;color:${r.capped?'var(--gold)':'rgba(255,255,255,.3)'}">${r.capped?fmt(cappingAwardValue):'Not capped'}</div>
-              <div style="font-size:9px;color:rgba(255,255,255,.3);margin-top:2px">${P.realCap===12000?'150':P.realCap===6000?'75':'50'} shares free</div>
+              <div style="font-size:9px;color:rgba(255,255,255,.3);margin-top:2px">150 shares free</div>
             </div>
             <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:12px 14px;border:1px solid rgba(255,255,255,.08)">
               <div style="font-size:9px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:4px">Elite award</div>
@@ -1436,14 +1444,25 @@ function renderPresentation(a, customFlag, colorIdx){
               <div style="font-size:9px;color:rgba(255,255,255,.3);margin-top:2px">$8k extra if teaching</div>
             </div>
           </div>
-          <div style="background:rgba(0,153,170,.1);border:1px solid rgba(0,153,170,.3);border-radius:var(--r);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;position:relative;z-index:1">
-            <div>
-              <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:2px">${eliteEligible?'Total est. stock value (w/ Elite + Academy)':'Total est. stock value'}</div>
-              <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:300">Commission + free awards · REAX ~$2.40/share est. · all subject to vesting</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;z-index:1;margin-bottom:10px">
+            <div style="background:rgba(0,153,170,.1);border:1px solid rgba(0,153,170,.3);border-radius:var(--r);padding:14px 18px">
+              <div style="font-size:10px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px">Total stock holdings</div>
+              <div style="font-family:var(--font-m);font-size:24px;font-weight:700;color:var(--aqua);margin-bottom:4px">${fmt(totalStockHoldings)}</div>
+              <div style="font-size:10px;color:rgba(255,255,255,.4);line-height:1.5">Your ${fmt(sppTotalInvested)} investment + ${fmt(stockFreeValue)} in free stock</div>
             </div>
-            <div style="font-family:var(--font-m);font-size:28px;font-weight:700;color:var(--aqua)">${fmt(eliteEligible?totalWithElite:totalConservative)}</div>
+            <div style="background:rgba(26,110,62,.1);border:1px solid rgba(26,110,62,.3);border-radius:var(--r);padding:14px 18px">
+              <div style="font-size:10px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px">Free stock earned</div>
+              <div style="font-family:var(--font-m);font-size:24px;font-weight:700;color:var(--green);margin-bottom:4px">${fmt(stockFreeValue)}</div>
+              <div style="font-size:10px;color:rgba(255,255,255,.4);line-height:1.5">SPP bonus + capping award${eliteEligible?' + Elite + Academy':''} · yours free</div>
+            </div>
           </div>
-          <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:10px;position:relative;z-index:1;line-height:1.6;font-weight:300">Stock values are estimates based on REAX ~$2.40/share. Share price fluctuates — check NASDAQ: REAX for current price. RSU vesting periods: SPP = 1 year, all other awards = 3 years. You must remain in good standing with REAL through vesting. SPP contributions come out of your commission checks before you receive them — they are your money invested into stock, not an additional expense.</div>
+          <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:12px 16px;position:relative;z-index:1;margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+              <div style="font-size:11px;color:rgba(255,255,255,.6)"><strong style="color:#fff">If you participate in SPP:</strong> ${fmt(sppTotalInvested)} comes out of your commission checks → goes into REAX stock</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.5);font-family:var(--font-m)">Cash take-home: <strong style="color:var(--aqua)">${fmt(commissionCash)}</strong></div>
+            </div>
+          </div>
+          <div style="font-size:10px;color:rgba(255,255,255,.3);position:relative;z-index:1;line-height:1.6;font-weight:300">Stock values are estimates based on REAX ~$2.40/share. Share price fluctuates — check NASDAQ: REAX for current price. RSU vesting periods: SPP = 1 year, all other awards = 3 years. You must remain in good standing with REAL through vesting. <strong style="color:rgba(255,255,255,.5)">SPP is optional</strong> — contributions come out of your commission checks. That money becomes stock, not a fee — but it does reduce your cash take-home.</div>
         </div>
 
       </div>
@@ -1524,8 +1543,8 @@ function renderPresentation(a, customFlag, colorIdx){
       <div class="stmt-lbl">Your numbers · prepared summary · ${P.name} plan</div>
       <div class="stmt-grid">
         <div class="sg"><div class="sg-lbl">REAL commission net</div><div class="sg-val tl">${fmt(r.net)}</div></div>
-        <div class="sg"><div class="sg-lbl">Total stock value (~est.)</div><div class="sg-val gold">+${fmt(totalStockValue)}</div></div>
-        <div class="sg"><div class="sg-lbl">Total value at REAL</div><div class="sg-val tl">${fmt(realNetWithStock)}</div></div>
+        <div class="sg"><div class="sg-lbl">Free stock earned (~est.)</div><div class="sg-val gold">+${fmt(stockFreeValue)}</div></div>
+        <div class="sg"><div class="sg-lbl">Commission + free stock</div><div class="sg-val tl">${fmt(realNetWithStock)}</div></div>
         <div class="sg"><div class="sg-lbl">${diff>=0?'Total advantage':'Difference'}</div><div class="sg-val ${diff>=0?'gn':'rd'}">${diff>=0?'+':''}${fmt(diff)}</div></div>
         <div class="sg"><div class="sg-lbl">Post-cap cost/deal</div><div class="sg-val">$325 flat</div></div>
         <div class="sg"><div class="sg-lbl">Cap status (REAL)</div><div class="sg-val ${r.capped?'tl':'gold'}">${r.capped?'Would cap ✓':'Pre-cap'}</div></div>
@@ -1536,10 +1555,10 @@ function renderPresentation(a, customFlag, colorIdx){
     <div class="cta">
       <div>
         <h3>Let's make it happen, ${firstName}.</h3>
-        <p>Same production. Same deals. Commission + stock — let's talk about what works best for you.</p>
+        <p>Same production. Same deals. Commission + free stock — let's talk about what works best for you.</p>
       </div>
       <div class="cta-stats">
-        <div class="cta-s"><div class="cta-s-val">${fmt(realNetWithStock)}</div><div class="cta-s-lbl">Commission + stock</div></div>
+        <div class="cta-s"><div class="cta-s-val">${fmt(realNetWithStock)}</div><div class="cta-s-lbl">Commission + free stock</div></div>
         <div class="cta-s"><div class="cta-s-val">${diff>=0?'+':''}${fmt(diff)}</div><div class="cta-s-lbl">${diff>=0?'Total advantage':'Difference'}</div></div>
       </div>
     </div>
